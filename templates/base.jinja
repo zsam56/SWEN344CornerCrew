@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello World! This is a Flask Page!</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/classList.css') }}" />
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/base.css') }}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js">
+  </script>
+</head>
+<body>
+
+    <div class="topBanner">
+        <div class="bannerTitle">
+            Student Grading System
+        </div>
+    </div>
+
+    <div class="topnav">
+        <a href="#bookstore">Bookstore</a>
+        <a href="#hr">University HR</a>
+        <a href="#fms">FMS</a>
+        <a href="#enrollments">Enrollment</a>
+        <a href="#coop">Co-op Eval</a>
+        <a href="#grades" class="active">Grades</a>
+    </div>
+
+
+
+
+{% block body %}
+{% endblock %}
+
+</body>
+</html>
