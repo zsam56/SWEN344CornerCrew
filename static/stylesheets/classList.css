@@ -1,0 +1,25 @@
+.centerDiv {
+    position: fixed;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%;
+    border-radius: 30px;
+    max-height: 70%;
+    overflow-y: scroll;
+
+}
+
+.tableBorderColor {
+    border: 2px solid black;
+    border-radius: 5px;
+}
+
+.titleDiv {
+    position: fixed;
+    font-size: 25px;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding-top: 20px;
+}
