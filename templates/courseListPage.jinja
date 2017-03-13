@@ -16,9 +16,11 @@
                 {% for c in classList %}
                     <tr>
                         <td>
+                            <a href="/course/{{c['courseId']}}">
                             {{ c['courseName'] }}
                             </br>
-                            {{ c['courseNumber'] }}
+                            {{ c['courseId'] }}
+                            </a>
                         </td>
                         <td>
                             {{ c['numGrades'] }}/{{ c['numStudents'] }}
