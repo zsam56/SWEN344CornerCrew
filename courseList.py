@@ -1,10 +1,24 @@
 from flask import Flask, render_template, url_for
+from api_facade import *
 app = Flask(__name__)
 
-@app.route("/")
+@app.route("/courses")
 def courseList():
-    classList = [{"courseName": "fake course One", "courseNumber": "swen-121", "numGrades": 0, "numStudents": 40}, {"courseName": "fake course Two", "courseNumber": "swen-221", "numGrades": 20, "numStudents": 20}, {"courseName": "fake course Three", "courseNumber": "swen-321", "numGrades": 40, "numStudents": 100}, {"courseName": "fake course One", "courseNumber": "swen-121", "numGrades": 0, "numStudents": 40}, {"courseName": "fake course One", "courseNumber": "swen-121", "numGrades": 0, "numStudents": 40}, {"courseName": "fake course One", "courseNumber": "swen-121", "numGrades": 0, "numStudents": 40}, {"courseName": "fake course One", "courseNumber": "swen-121", "numGrades": 0, "numStudents": 40}, {"courseName": "fake course Three", "courseNumber": "swen-321", "numGrades": 40, "numStudents": 100}, {"courseName": "fake course Three", "courseNumber": "swen-321", "numGrades": 40, "numStudents": 100}, {"courseName": "fake course Three", "courseNumber": "swen-321", "numGrades": 40, "numStudents": 100}]
-    return render_template('flaskwebPage.jinja', classList=classList)
+    # TODO: update with professor id
+    # if professor:
+    return render_template('courseListPage.jinja', classList=getInstructorCourses("0001"))
+    # TODO: update with student id
+    # if student:
+    # return render_template('courseListPage.jinja', classList=getStudentCourses("9999))
+
+
+@app.route("/course/<course_id>")
+def courseView(course_id):
+    course = getCourse(course_id)
+    grades = getGrades(course_id)
+    comments = getCourseComments(course_id)
+    return render_template('coursePage.jinja', course=course, grades=grades, comments=comments)
+
 
 if __name__ == "__main__":
     app.config['TEMPLATES_AUTO_RELOAD'] = True

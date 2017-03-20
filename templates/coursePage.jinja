@@ -1,0 +1,42 @@
+{% extends "base.jinja" %}
+{% block body %}
+    <div>
+        <div class="titleDiv">
+            {{course["courseName"]}}
+        </div>
+        <div class="centerDiv tableBorderColor">
+            <table class="table">
+            <thead>
+              <tr>
+                <th>Student</th>
+                <th>Grade</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for g in grades %}
+                    <tr class="collapsible-header">
+                        <td>
+                            {{ g['student_id'] }}
+                        </td>
+                        <td>
+                            {{ g['grade'] }}
+                        </td>
+                    </tr>
+                    <tr class="collapsible-content">
+                        <td colspan="2">
+                            <strong>Comments</strong>
+                            {% for c in comments[g['student_id']] %}
+                            <p>
+                                {{c["author"]}} - {{c["timestamp"]}}
+                                <br>
+                                {{c["comment"]}}
+                            </p>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+        </div>
+    </div>
+{% endblock %}
