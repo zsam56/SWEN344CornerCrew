@@ -28,16 +28,23 @@ def getUser(student_id):
 :return number of grades for that section
 """
 def getNumGrades(section_id):
-    #TODO
-    return 0
+    count = 0
+    for g in list(grade.values()):
+        ss = student_section[g["student_section_id"]]
+        if (ss["section_id"] == section_id):
+            count += 1
+    return count
 
 
 """
 :return number of students enrolled in that section
 """
 def getNumStudents(section_id):
-    #TODO
-    return 0
+    count = 0
+    for ss in list(student_section.values()):
+        if (ss["section_id"] == section_id):
+            count += 1
+    return count
 
 
 """
