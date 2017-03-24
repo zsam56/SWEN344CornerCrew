@@ -149,7 +149,7 @@ students = {
 student_courses = {
     "swen-3449999": {
         "student_id": "9999",
-        "course_id": "swen-344",
+        "course_id": "swen-562",
         "grade": "A",
         "locked": 0,
     },
@@ -238,6 +238,12 @@ def getGrades(course_id):
         if (g["course_id"] == course_id):
             grades.append(g)
     return grades
+
+def getStudentGrade(course_id, student_id):
+    for g in list(student_courses.values()):
+        if (g["course_id"] == course_id):
+            if(g['student_id'] == student_id):
+                return g['grade']
 
 
 """
