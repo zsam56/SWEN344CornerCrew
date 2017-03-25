@@ -6,18 +6,17 @@ app = Flask(__name__)
 def courseList():
     # TODO: update with professor id
     # if professor:
-    return render_template('courseListPage.jinja', classList=getInstructorCourses("0001"))
+    return render_template('courseListPage.jinja', section_list=getProfessorSections(1))
     # TODO: update with student id
     # if student:
     # return render_template('courseListPage.jinja', classList=getStudentCourses("9999))
 
 
-@app.route("/course/<course_id>")
-def courseView(course_id):
-    course = getCourse(course_id)
-    grades = getGrades(course_id)
-    comments = getCourseComments(course_id)
-    return render_template('coursePage.jinja', course=course, grades=grades, comments=comments)
+@app.route("/course/<section_id>")
+def courseView(section_id):
+    section = getSection(section_id)
+    grades_comments = getGradesAndCommentsForSection(section_id)
+    return render_template('coursePage.jinja', section=section, grades_comments=grades_comments)
 
 
 if __name__ == "__main__":

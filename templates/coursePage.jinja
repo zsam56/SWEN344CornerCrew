@@ -2,7 +2,7 @@
 {% block body %}
     <div>
         <div class="titleDiv">
-            {{course["courseName"]}}
+            {{section["course_name"]}}
         </div>
         <div class="centerDiv tableBorderColor">
             <table class="table">
@@ -13,23 +13,24 @@
               </tr>
             </thead>
             <tbody>
-                {% for g in grades %}
+                {% for student_id in grades_comments %}
                     <tr class="collapsible-header">
                         <td>
-                            {{ g['student_id'] }}
+                            <strong>{{ grades_comments[student_id]["student"]["first_name"] }}
+                             {{ grades_comments[student_id]["student"]["last_name"] }}</strong>
                         </td>
                         <td>
-                            {{ g['grade'] }}
+                            <strong>{{ grades_comments[student_id]["grade"]["value"] }}</strong>
                         </td>
                     </tr>
                     <tr class="collapsible-content">
                         <td colspan="2">
                             <strong>Comments</strong>
-                            {% for c in comments[g['student_id']] %}
+                            {% for c in grades_comments[student_id]["comments"] %}
                             <p>
-                                {{c["author"]}} - {{c["timestamp"]}}
+                                {{ c["author"]["first_name"] }} {{ c["author"]["last_name"] }} ({{ c["author"]["role"] }}) - Posted {{ c["created_time"] }}
                                 <br>
-                                {{c["comment"]}}
+                                {{ c["comment"] }}
                             </p>
                             {% endfor %}
                         </td>
