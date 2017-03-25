@@ -13,23 +13,19 @@
               </tr>
             </thead>
             <tbody>
-                {% for c in classList %}
+                {% for s in section_list %}
                     <tr>
                         <td>
-                            <a href="/course/{{c['courseId']}}">
-                            {{ c['courseName'] }}
+                            <a href="/course/{{s['id']}}">
+                            {{ s['course_name'] }}
                             </br>
-                            {{ c['courseId'] }}
+                            {{ s['id'] }}
                             </a>
                         </td>
                         <td>
-                            {% if student %}
-                                {{ c['grade'] }}
-                            {% else %}
-                                {{ c['numGrades'] }}/{{ c['numStudents'] }}
-                                <br/>
-                                graded
-                            {% endif %}
+                            {{ s['num_graded'] }}/{{ s['num_students'] }}
+                            <br/>
+                            graded
                         </td>
                     </tr>
             {% endfor %}
