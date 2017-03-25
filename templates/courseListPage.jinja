@@ -23,9 +23,13 @@
                             </a>
                         </td>
                         <td>
-                            {{ s['num_graded'] }}/{{ s['num_students'] }}
-                            <br/>
-                            graded
+                            {% if student %}
+                                {{ s['grade'] }}
+                            {% else %}
+                                {{ s['num_graded'] }}/{{ s['num_students'] }}
+                                <br/>
+                                graded
+                            {% endif %}
                         </td>
                     </tr>
             {% endfor %}
