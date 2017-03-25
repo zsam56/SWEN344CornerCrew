@@ -16,11 +16,15 @@
                 {% for s in section_list %}
                     <tr>
                         <td>
-                            <a href="/course/{{s['id']}}">
+                            {% if not student %}
+                                <a href="/course/{{s['id']}}">
+                            {% endif %}
                             {{ s['course_name'] }}
                             </br>
                             {{ s['id'] }}
-                            </a>
+                            {% if not student %}
+                                </a>
+                            {% endif %}
                         </td>
                         <td>
                             {% if student %}
