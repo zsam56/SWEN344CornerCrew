@@ -2,3 +2,7 @@
     display: none;
     padding : 5px;
 }
+
+.select-grade {
+	z-index: 10;
+}
