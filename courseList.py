@@ -26,7 +26,6 @@ def courseView(section_id):
     return render_template('coursePage.jinja', section=section, grades_comments=grades_comments)
 
 
-
 if __name__ == "__main__":
     app.config['TEMPLATES_AUTO_RELOAD'] = True
     app.run()
