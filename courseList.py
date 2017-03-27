@@ -4,12 +4,19 @@ app = Flask(__name__)
 
 @app.route("/courses")
 def courseList():
+    #student = checkIfStudent() need check
+    #student = True #for testing, true for student view, false for prof
     # TODO: update with professor id
     # if professor:
     return render_template('courseListPage.jinja', section_list=getProfessorSections(1))
     # TODO: update with student id
-    # if student:
-    # return render_template('courseListPage.jinja', classList=getStudentCourses("9999))
+    if student:
+        section_list = getStudentSections(4)
+        for s in section_list:
+            s['grade'] = (getGradeForStudentSection(s['id']))
+            if s['grade'] == None:
+                s['grade'] = 'N/A'
+        return render_template('courseListPage.jinja', section_list=section_list, student=student)
 
 
 @app.route("/course/<section_id>")
