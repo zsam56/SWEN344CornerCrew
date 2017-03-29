@@ -83,7 +83,9 @@ def getStudentSections(student_id):
     section_list = []
     for ss in list(student_section.values()):
         if student_id == ss["student_id"]:
-            section_list.append(getSection(ss["section_id"]))
+            section = getSection(ss["section_id"])
+            section['student_section_id'] = ss['student_section_id']
+            section_list.append(section)
     return section_list
 
 

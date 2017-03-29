@@ -2,6 +2,7 @@ from flask import Flask, render_template, url_for
 from api_facade import *
 app = Flask(__name__)
 
+
 @app.route("/courses")
 def courseList():
     #student = checkIfStudent() need check
@@ -11,11 +12,12 @@ def courseList():
     return render_template('courseListPage.jinja', section_list=getProfessorSections(1))
     # TODO: update with student id
     if student:
-        section_list = getStudentSections(4)
+        section_list = getStudentSections(1)
         for s in section_list:
-            s['grade'] = (getGradeForStudentSection(s['id']))
+            s['grade'] = (getGradeForStudentSection(s['student_section_id']))
             if s['grade'] == None:
                 s['grade'] = 'N/A'
+            s['comments'] = getCommentsForStudentSection(s['student_section_id'])
         return render_template('courseListPage.jinja', section_list=section_list, student=student)
 
 

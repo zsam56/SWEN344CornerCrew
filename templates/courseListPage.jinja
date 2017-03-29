@@ -9,33 +9,51 @@
             <thead>
               <tr>
                 <th>Course</th>
-                <th>Grades</th>
+                <th>Grade</th>
               </tr>
             </thead>
             <tbody>
                 {% for s in section_list %}
+                    {% if student %}
+                    <tr class="collapsible-header">
+                    {% else %}
                     <tr>
+                    {% endif %}
                         <td>
                             {% if not student %}
-                                <a href="/course/{{s['id']}}">
+                            <a href="/course/{{s['id']}}">
                             {% endif %}
                             {{ s['course_name'] }}
                             </br>
                             {{ s['id'] }}
                             {% if not student %}
-                                </a>
+                            </a>
                             {% endif %}
                         </td>
                         <td>
                             {% if student %}
-                                {{ s['grade'] }}
+                            {{ s['grade']['value'] }}
                             {% else %}
-                                {{ s['num_graded'] }}/{{ s['num_students'] }}
-                                <br/>
-                                graded
+                            {{ s['num_graded'] }}/{{ s['num_students'] }}
+                            <br>
+                            graded
                             {% endif %}
                         </td>
                     </tr>
+                    {% if student %}
+                    <tr class="collapsible-content">
+                        <td colspan="2">
+                            <strong>Comments</strong>
+                            {% for c in s["comments"] %}
+                            <p>
+                                {{ c["author"]["first_name"] }} {{ c["author"]["last_name"] }} ({{ c["author"]["role"] }}) - Posted {{ c["created_time"] }}
+                                <br>
+                                {{ c["comment"] }}
+                            </p>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    {% endif %}
             {% endfor %}
             </tbody>
           </table>

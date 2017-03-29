@@ -247,36 +247,42 @@ student_section = {
             "id": 1,
             "student_id": 1,
             "section_id": "swen-344-01",
+            "student_section_id": 1,
         },
     2:
         {
             "id": 2,
             "student_id": 2,
             "section_id": "swen-344-01",
+            "student_section_id": 2,
         },
     3:
         {
             "id": 3,
             "student_id": 3,
             "section_id": "swen-344-01",
+            "student_section_id": 3,
         },
     4:
         {
             "id": 4,
             "student_id": 4,
             "section_id": "swen-344-01",
+            "student_section_id": 4,
         },
     5:
         {
             "id": 5,
             "student_id": 1,
             "section_id": "swen-344-02",
+            "student_section_id": 5,
         },
     6:
         {
             "id": 6,
             "student_id": 2,
             "section_id": "swen-344-02",
+            "student_section_id": 6,
         },
 }
 
