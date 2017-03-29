@@ -26,6 +26,7 @@
                     <tr class="collapsible-content">
                         <td colspan="2">
                             <strong>Comments</strong>
+                            <br>
                             {% for c in grades_comments[student_id]["comments"] %}
                             <p>
                                 {{ c["author"]["first_name"] }} {{ c["author"]["last_name"] }} ({{ c["author"]["role"] }}) - Posted {{ c["created_time"] }}

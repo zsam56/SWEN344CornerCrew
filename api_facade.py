@@ -141,6 +141,11 @@ def getStudentComments(student_id):
                 comment_list[course_id] = [c]
     return comment_list
 
+def checkIfStudent(user_id):
+    if (user_id in student):
+        return True
+    return False
+
 
 def unit_test():
     print("getSectionList()")
