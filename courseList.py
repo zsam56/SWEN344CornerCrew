@@ -7,7 +7,7 @@ def courseList():
     student = checkIfStudent(3)
     # TODO: update with professor id
     if not student:
-        return render_template('courseListPage.jinja', section_list=getProfessorSections(1))
+        return render_template('courseListPage.jinja', section_list=getProfessorSections(1), student=student)
     # TODO: update with student id
     if student:
         section_list = getStudentSections(4)

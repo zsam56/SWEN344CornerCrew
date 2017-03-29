@@ -146,7 +146,6 @@ def checkIfStudent(user_id):
         return True
     return False
 
-
 def unit_test():
     print("getSectionList()")
     print(getSectionList())
