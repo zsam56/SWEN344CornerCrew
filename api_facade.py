@@ -143,11 +143,20 @@ def getStudentComments(student_id):
                 comment_list[course_id] = [c]
     return comment_list
 
+
+"""
+:return True if the user is a student, False if not
+"""
 def checkIfStudent(user_id):
-    if (user_id in student):
-        return True
+    for s in list(student.values()):
+        if int(user_id) == s['user_id']:
+            return True
     return False
 
+
+"""
+Simple unit tests
+"""
 def unit_test():
     print("getSectionList()")
     print(getSectionList())
@@ -163,6 +172,10 @@ def unit_test():
     print("\n")
     print("getGradesAndCommentsForSection('swen-344-01')")
     print(getGradesAndCommentsForSection("swen-344-01"))
+    print("\n")
+    print("check if student")
+    print(checkIfStudent(1))
+    print(checkIfStudent(7))
 
 if __name__ == "__main__":
     unit_test()

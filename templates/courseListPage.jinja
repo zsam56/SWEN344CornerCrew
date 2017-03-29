@@ -43,7 +43,7 @@
                     {% if student %}
                     <tr class="collapsible-content">
                         <td colspan="2">
-                            <strong>Comments</strong>
+                            <p><strong>Comments</strong></p>
                             {% for c in s["comments"] %}
                             <p>
                                 {{ c["author"]["first_name"] }} {{ c["author"]["last_name"] }} ({{ c["author"]["role"] }}) - Posted {{ c["created_time"] }}
@@ -51,6 +51,8 @@
                                 {{ c["comment"] }}
                             </p>
                             {% endfor %}
+                            <input type="text" style="width: 80%" placeholder="Write a comment">
+                            <button style="float: right">Submit</button>
                         </td>
                     </tr>
                     {% endif %}
