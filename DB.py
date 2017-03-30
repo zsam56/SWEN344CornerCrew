@@ -275,7 +275,7 @@ student_section = {
             "id": 5,
             "student_id": 1,
             "section_id": "swen-344-02",
-            "student_section_id": 5,
+            "student_section_id": 2,
         },
     6:
         {
@@ -290,28 +290,30 @@ student_section = {
 grade = {
     1:
         {
-            "value": "A",
-            "is_locked": 0,
-            "last_modified": 100000000,
-            "student_section_id": 1,
+            "ID": 1,
+            "VALUE": 90,
+            "IS_LOCKED": 0,
+            "LAST_MODIFIED": "2017-03-28 15:30:00.000",
+            "STUDENT_SECTION_ID": 1
         },
     2:
         {
-            "value": "B",
-            "is_locked": 1,
-            "last_modified": 100000000,
-            "student_section_id": 2,
+            "ID": 2,
+            "VALUE": 75,
+            "IS_LOCKED": 0,
+            "LAST_MODIFIED": "2017-03-28 15:30:00.000",
+            "STUDENT_SECTION_ID": 2
         },
     3:
         {
-            "value": "B",
+            "VALUE": "B",
             "is_locked": 1,
             "last_modified": 100000000,
             "student_section_id": 3,
         },
     4:
         {
-            "value": "B",
+            "VALUE": "B",
             "is_locked": 1,
             "last_modified": 100000000,
             "student_section_id": 4,
