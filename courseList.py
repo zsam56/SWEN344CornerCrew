@@ -14,10 +14,10 @@ def courseList():
     if student:
         section_list = getStudentSections(1)
         for s in section_list:
-            s['grade'] = (getGradeForStudentSection(s['student_section_id']))
+            s['grade'] = (getGradeForStudentSection(s['ID']))
             if s['grade'] == None:
                 s['grade'] = 'N/A'
-            s['comments'] = getCommentsForStudentSection(s['student_section_id'])
+            s['comments'] = getCommentsForStudentSection(s['ID'])
         return render_template('courseListPage.jinja', section_list=section_list, student=student)
 
 

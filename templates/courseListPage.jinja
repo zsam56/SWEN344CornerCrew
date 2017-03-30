@@ -32,7 +32,7 @@
                         </td>
                         <td>
                             {% if student %}
-                            {{ s['grade']['value'] }}
+                            {{ s['grade']['VALUE'] }}
                             {% else %}
                             {{ s['num_graded'] }}/{{ s['num_students'] }}
                             <br>
@@ -46,7 +46,7 @@
                             <p><strong>Comments</strong></p>
                             {% for c in s["comments"] %}
                             <p>
-                                {{ c["author"]["first_name"] }} {{ c["author"]["last_name"] }} ({{ c["author"]["role"] }}) - Posted {{ c["created_time"] }}
+                                {{ c["author"]["FIRSTNAME"] }} {{ c["author"]["LASTNAME"] }} ({{ c["author"]["ROLE"] }}) - Posted {{ c["created_time"] }}
                                 <br>
                                 {{ c["comment"] }}
                             </p>
