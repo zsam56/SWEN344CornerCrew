@@ -309,14 +309,14 @@ grade = {
             "VALUE": "B",
             "is_locked": 1,
             "last_modified": 100000000,
-            "student_section_id": 3,
+            "STUDENT_SECTION_ID": 3,
         },
     4:
         {
             "VALUE": "B",
             "is_locked": 1,
             "last_modified": 100000000,
-            "student_section_id": 4,
+            "STUDENT_SECTION_ID": 4,
         },
 }
 

@@ -1,7 +1,7 @@
 from DB import *
 import requests
 
-mockAPI = False
+mockAPI = True
 apiBaseURL = "http://vm344d.se.rit.edu:3333/API/API.php"
 
 """
@@ -20,7 +20,7 @@ def getFromAPI(team, function, payload):
 :return a list of sections
 """
 def getSectionList():
-        return list(section.values())
+    return list(section.values())
 
 
 """
@@ -34,12 +34,6 @@ def getCourse(course_id):
         params = { 'courseID': course_id }
         responseJSON = getFromAPI('general', 'getCourse', params)
         return responseJSON;
-
-"""
-:return student sections list
-"""
-def getStudentSections():
-    return list(student_section.values())
 
 """
 :return user dictionary
@@ -61,8 +55,9 @@ def getUser(student_id):
 def getNumGrades(section_id):
     if mockAPI:
         count = 0
+        print(list(grade.values()))
         for g in list(grade.values()):
-            ss = student_section[g["student_section_id"]]
+            ss = student_section[g["STUDENT_SECTION_ID"]]
             if (ss["section_id"] == section_id):
                 count += 1
         return count
@@ -104,7 +99,7 @@ def getSection(section_id):
             section_info["num_students"] = getNumStudents(section_id)
         return section_info
     else:
-        params = { 'sectionID': section_id }
+        params = { 'section_id': section_id }
         responseJSON = getFromAPI('student_enrollment', 'getSection', params)
 
 
@@ -130,8 +125,10 @@ def getStudentSections(student_id):
     if mockAPI:
         section_list = []
         for ss in list(student_section.values()):
-            if student_id == ss["student_id"]:
+            if int(student_id) == ss["student_id"]:
                 section = getSection(ss["section_id"])
+                section['id'] = ss['id']
+                section['section_id'] = ss["section_id"]
                 section['student_section_id'] = ss['student_section_id']
                 section_list.append(section)
         return section_list
@@ -141,12 +138,22 @@ def getStudentSections(student_id):
         return responseJSON
 
 """
+returns the id of a student_section object that
+includes the given student_id and section_id
+"""
+def getStudentSection(student_id, section_id):
+    if mockAPI:
+        for ss in list(student_section.values()):
+            if int(student_id) == ss["student_id"] and section_id == ss["section_id"]:
+                return ss['student_section_id']
+
+"""
 :return the grade dictonary for that student section
 """
 def getGradeForStudentSection(student_section_id):
     if mockAPI:
         for g in list(grade.values()):
-            if g["student_section_id"] == student_section_id:
+            if g["STUDENT_SECTION_ID"] == int(student_section_id):
                 return g
     else:
         params = {'student_section_id': student_section_id}
@@ -208,15 +215,30 @@ def getStudentComments(student_id):
 :update student grade to be locked
 """
 def lockStudentGrade(student_id, section_id):
-    student_section_id = 0
-    sections = getStudentSections()
-    for section in sections:
-        if (section['section_id'] == section_id & section['student_id'] == student_id):
-            student_section_id = section['id']
+    ss_id = getStudentSection(student_id, section_id)
 
-    student_grade = getGradeForStudentSection(student_section_id)
+    student_grade = getGradeForStudentSection(ss_id)
+    #ENDPOINT
     student_grade['is_locked'] = 1
     return True
+
+"""
+:update student grade
+"""
+def saveStudentGrade(student_id, section_id, new_grade):
+    ss_id = getStudentSection(student_id, section_id)
+    student_grade = getGradeForStudentSection(ss_id)
+    #ENDPOINT
+    if (new_grade == 'A'):
+        student_grade['VALUE'] = 90
+    elif new_grade == 'B':
+        student_grade['VALUE'] = 80
+    elif new_grade == 'C':
+        student_grade['VALUE'] = 70
+    elif new_grade == 'D':
+        student_grade['VALUE'] = 65
+    elif new_grade == 'F':
+        student_grade['VALUE'] = 50
 
 
 """
