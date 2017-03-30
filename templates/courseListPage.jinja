@@ -46,7 +46,7 @@
                             <p><strong>Comments</strong></p>
                             {% for c in s["comments"] %}
                             <p>
-                                {{ c["author"]["FIRSTNAME"] }} {{ c["author"]["LASTNAME"] }} ({{ c["author"]["ROLE"] }}) - Posted {{ c["created_time"] }}
+                                {{ c["USER_ID"]["FIRSTNAME"] }} {{ c["USER_ID"]["LASTNAME"] }} ({{ c["USER_ID"]["ROLE"] }}) - Posted {{ c["created_time"] }}
                                 <br>
                                 {{ c["comment"] }}
                             </p>
