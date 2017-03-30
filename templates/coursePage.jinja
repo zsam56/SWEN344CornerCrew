@@ -2,7 +2,7 @@
 {% block body %}
     <div>
         <div class="titleDiv">
-            {{course["courseName"]}}
+            {{section["course_name"]}}
         </div>
         <div class="centerDiv tableBorderColor">
             <table class="table">
@@ -14,33 +14,53 @@
               </tr>
             </thead>
             <tbody>
-                {% for g in grades %}
+                {% for student_id in grades_comments %}
                     <tr class="collapsible-header">
                         <td>
-                            <input type="checkbox" value="locked">
+                            {% if grades_comments[student_id]["grade"]["is_locked"] %}
+                                <img src="/static/icons/lock_icon.png" class="lock_img">
+                            {%endif%}
+                            {% if not grades_comments[student_id]["grade"]["is_locked"] %}
+                                <form action="/lock" method="post">
+                                    <input class="hidden_input" name="student_section" value="{{(student_id, section['id'])}}">
+
+                                    <div class="lock_button">
+                                        <input name=Lock type=submit value=Lock>
+                                    </div>
+                                </form>
+                            {%endif%}
                         </td>
                         <td>
-                            {{ g['student_id'] }}
+                            <strong>{{ grades_comments[student_id]["student"]["first_name"] }}
+                             {{ grades_comments[student_id]["student"]["last_name"] }}</strong>
                         </td>
                         <td>
-                            {{ g['grade'] }}
-                            <select class="select-grade">
-                                <option value="A">A</option>
-                                <option value="B">B</option>
-                                <option value="C">C</option>
-                                <option value="D">D</option>
-                                <option value="F">F</option>
-                            </select>
+                            <strong>{{ grades_comments[student_id]["grade"]["value"] }}</strong>
+                            {% if not grades_comments[student_id]["grade"]["is_locked"] %}
+                                <form action="/save_grade" method="post">
+                                    <input class="hidden_input" name="student_section" value="{{(student_id, section['id'])}}">
+                                    <select name="save_grade" class="select-grade" selected="C">
+                                        <option value="A">A</option>
+                                        <option value="B">B</option>
+                                        <option value="C">C</option>
+                                        <option value="D">D</option>
+                                        <option value="F">F</option>
+                                    </select>
+                                    <div class="save_button">
+                                        <input name=Save type=submit value=Save>
+                                    </div>
+                                </form>
+                            {%endif%}
                         </td>
                     </tr>
                     <tr class="collapsible-content">
                         <td colspan="2">
                             <strong>Comments</strong>
-                            {% for c in comments[g['student_id']] %}
+                            {% for c in grades_comments[student_id]["comments"] %}
                             <p>
-                                {{c["author"]}} - {{c["timestamp"]}}
+                                {{ c["author"]["first_name"] }} {{ c["author"]["last_name"] }} ({{ c["author"]["role"] }}) - Posted {{ c["created_time"] }}
                                 <br>
-                                {{c["comment"]}}
+                                {{ c["comment"] }}
                             </p>
                             {% endfor %}
                         </td>
@@ -48,9 +68,6 @@
                 {% endfor %}
             </tbody>
           </table>
-        </div>
-        <div class="button_container">
-            <button>Lock</button>
         </div>
     </div>
 {% endblock %}
