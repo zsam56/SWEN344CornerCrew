@@ -4,14 +4,23 @@ from flask import Flask, render_template, url_for, request, redirect
 from api_facade import *
 app = Flask(__name__)
 
+
 @app.route("/courses")
 def courseList():
+    student = checkIfStudent(1)     # Use to test professor view
+    student = checkIfStudent(4)     # Use to test student view
     # TODO: update with professor id
-    # if professor:
-    return render_template('courseListPage.jinja', section_list=getProfessorSections(1))
+    if not student:
+        return render_template('courseListPage.jinja', section_list=getProfessorSections(1), student=student)
     # TODO: update with student id
-    # if student:
-    # return render_template('courseListPage.jinja', classList=getStudentCourses("9999))
+    if student:
+        section_list = getStudentSections(1)
+        for s in section_list:
+            s['grade'] = (getGradeForStudentSection(s['student_section_id']))
+            if s['grade'] == None:
+                s['grade'] = 'N/A'
+            s['comments'] = getCommentsForStudentSection(s['student_section_id'])
+        return render_template('courseListPage.jinja', section_list=section_list, student=student)
 
 
 @app.route("/course/<section_id>")

@@ -88,7 +88,9 @@ def getStudentSections(student_id):
     section_list = []
     for ss in list(student_section.values()):
         if student_id == ss["student_id"]:
-            section_list.append(getSection(ss["section_id"]))
+            section = getSection(ss["section_id"])
+            section['student_section_id'] = ss['student_section_id']
+            section_list.append(section)
     return section_list
 
 
@@ -161,6 +163,19 @@ def lockStudentGrade(student_id, section_id):
     return True
 
 
+"""
+:return True if the user is a student, False if not
+"""
+def checkIfStudent(user_id):
+    for s in list(student.values()):
+        if int(user_id) == s['user_id']:
+            return True
+    return False
+
+
+"""
+Simple unit tests
+"""
 def unit_test():
     print("getSectionList()")
     print(getSectionList())
@@ -176,6 +191,10 @@ def unit_test():
     print("\n")
     print("getGradesAndCommentsForSection('swen-344-01')")
     print(getGradesAndCommentsForSection("swen-344-01"))
+    print("\n")
+    print("check if student")
+    print(checkIfStudent(1))
+    print(checkIfStudent(7))
 
 if __name__ == "__main__":
     unit_test()

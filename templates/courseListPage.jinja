@@ -9,25 +9,53 @@
             <thead>
               <tr>
                 <th>Course</th>
-                <th>Grades</th>
+                <th>Grade</th>
               </tr>
             </thead>
             <tbody>
                 {% for s in section_list %}
+                    {% if student %}
+                    <tr class="collapsible-header">
+                    {% else %}
                     <tr>
+                    {% endif %}
                         <td>
+                            {% if not student %}
                             <a href="/course/{{s['id']}}">
+                            {% endif %}
                             {{ s['course_name'] }}
                             </br>
                             {{ s['id'] }}
+                            {% if not student %}
                             </a>
+                            {% endif %}
                         </td>
                         <td>
+                            {% if student %}
+                            {{ s['grade']['value'] }}
+                            {% else %}
                             {{ s['num_graded'] }}/{{ s['num_students'] }}
-                            <br/>
+                            <br>
                             graded
+                            {% endif %}
                         </td>
                     </tr>
+                    {% if student %}
+                    <tr class="collapsible-content">
+                        <td colspan="2">
+                            <p><strong>Comments</strong></p>
+                            {% for c in s["comments"] %}
+                            <p>
+                                {{ c["author"]["first_name"] }} {{ c["author"]["last_name"] }} ({{ c["author"]["role"] }}) - Posted {{ c["created_time"] }}
+                                <br>
+                                {{ c["comment"] }}
+                            </p>
+                            {% endfor %}
+                            <input type="text" style="width: 80%" placeholder="Write a comment">
+                            <button style="float: right">Submit</button>
+                        </td>
+                    </tr>
+                    {% endif %}
             {% endfor %}
             </tbody>
           </table>
