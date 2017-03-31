@@ -19,15 +19,15 @@
                     {% for student_id in grades_comments %}
                         <tr class="collapsible-header">
                             <td>
-                                {% if grades_comments[student_id]["grade"]["is_locked"] %}
+                                {% if grades_comments[student_id]["grade"]["IS_LOCKED"] %}
                                     <img src="/static/icons/lock_icon.png" class="lock_img">
                                 {%endif%}
-                                {% if not grades_comments[student_id]["grade"]["is_locked"] %}
+                                {% if not grades_comments[student_id]["grade"]["IS_LOCKED"] %}
                                     <div class="lock_check">
                                         {# <input name=lock_check type=checkbox> #}
                                         <form action="/lock_grades" method="post">
                                             {{form.student_id(value=student_id)}}
-                                            {{form.section_id(value=section['id'])}}
+                                            {{form.section_id(value=section['ID'])}}
                                             <div class="lock_button">
                                                 <input name=Lock type=submit value=Lock>
                                             </div>
@@ -36,12 +36,12 @@
                                 {%endif%}
                             </td>
                             <td>
-                                <strong>{{ grades_comments[student_id]["student"]["first_name"] }}
-                                 {{ grades_comments[student_id]["student"]["last_name"] }}</strong>
+                                <strong>{{ grades_comments[student_id]["student"]["FIRSTNAME"] }}
+                                 {{ grades_comments[student_id]["student"]["LASTNAME"] }}</strong>
                             </td>
                             <td>
                                 <strong>{{ grades_comments[student_id]["grade"]["VALUE"] }}</strong>
-                                {% if not grades_comments[student_id]["grade"]["is_locked"] %}
+                                {% if not grades_comments[student_id]["grade"]["IS_LOCKED"] %}
                                     <form action="/save_grade" method="post">
                                         {# <select name="save_grade" class="select-grade" selected="C">
                                             <option value="A">A</option>
@@ -52,7 +52,7 @@
                                         </select> #}
                                         {{save_form.new_grade}}
                                         {{save_form.student_id(value=student_id)}}
-                                        {{save_form.section_id(value=section['id'])}}
+                                        {{save_form.section_id(value=section['ID'])}}
                                         <div class="save_button">
                                             <input name=Save type=submit value=Save>
                                         </div>
@@ -66,7 +66,7 @@
                                 <br>
                                 {% for c in grades_comments[student_id]["comments"] %}
                                 <p>
-                                    {{ c["author"]["first_name"] }} {{ c["author"]["last_name"] }} ({{ c["author"]["role"] }}) - Posted {{ c["created_time"] }}
+                                    {{ c["USER"]["first_name"] }} {{ c["USER"]["last_name"] }} ({{ c["USER"]["role"] }}) - Posted {{ c["created_time"] }}
                                     <br>
                                     {{ c["comment"] }}
                                 </p>
