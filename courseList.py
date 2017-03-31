@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 @app.route("/courses")
 def courseList():
-    student = checkIfStudent(1)     # Use to test professor view
+    student = False    # Use to test professor view
     # student = checkIfStudent(4)     # Use to test student view
     # TODO: update with professor id
     if not student:
@@ -15,7 +15,6 @@ def courseList():
     # TODO: update with student id
     if student:
         section_list = getStudentSections(1)
-
         for s in section_list:
             s['grade'] = (getGradeForStudentSection(s['ID']))
             if s['grade'] == None:
