@@ -92,19 +92,19 @@ course = {
 section = {
     "swen-344-01":
         {
-            "id": "swen-344-01",
-            "max_students": 20,
+            "ID": "swen-344-01",
+            "MAX_STUDENTS": 20,
             "professor_id": 1,
-            "course_id": "swen-344",
+            "COURSE_ID": "swen-344",
             "term_id": 201617,
             "location_id": 0,
         },
     "swen-344-02":
         {
-            "id": "swen-344-02",
-            "max_students": 20,
+            "ID": "swen-344-02",
+            "MAX_STUDENTS": 20,
             "professor_id": 1,
-            "course_id": "swen-344",
+            "COURSE_ID": "swen-344",
             "term_id": 201617,
             "location_id": 0,
         }
@@ -122,8 +122,8 @@ user = {
             "username": "krutz",
             "password": "password",
             "email": "krutz@se.rit.edu",
-            "first_name": "Dan",
-            "last_name": "Krutz",
+            "FIRSTNAME": "Dan",
+            "LASTNAME": "Krutz",
             "role": "professor",
         },
      2:
@@ -131,8 +131,8 @@ user = {
             "username": "malachowsky",
             "password": "password",
             "email": "malachowsky@se.rit.edu",
-            "first_name": "Sam",
-            "last_name": "Malachowsky",
+            "FIRSTNAME": "Sam",
+            "LASTNAME": "Malachowsky",
             "role": "professor",
         },
     3:
@@ -140,8 +140,8 @@ user = {
             "username": "vallino",
             "password": "password",
             "email": "vallino@se.rit.edu",
-            "first_name": "Jim",
-            "last_name": "Vallino",
+            "FIRSTNAME": "Jim",
+            "LASTNAME": "Vallino",
             "role": "professor",
         },
     4:
@@ -149,8 +149,8 @@ user = {
             "username": "youknownothing",
             "password": "password",
             "email": "jsnow@se.rit.edu",
-            "first_name": "John",
-            "last_name": "Snow",
+            "FIRSTNAME": "John",
+            "LASTNAME": "Snow",
             "role": "student",
         },
     5:
@@ -158,8 +158,8 @@ user = {
             "username": "squidward",
             "password": "password",
             "email": "squidward@se.rit.edu",
-            "first_name": "Squid",
-            "last_name": "Ward",
+            "FIRSTNAME": "Squid",
+            "LASTNAME": "Ward",
             "role": "student",
         },
     6:
@@ -167,8 +167,8 @@ user = {
             "username": "l337",
             "password": "password",
             "email": "l337@se.rit.edu",
-            "first_name": "l337",
-            "last_name": "h4x0r",
+            "FIRSTNAME": "l337",
+            "LASTNAME": "h4x0r",
             "role": "student",
         },
     7:
@@ -176,8 +176,8 @@ user = {
             "username": "yoloswag",
             "password": "password",
             "email": "#blessed@se.rit.edu",
-            "first_name": "Yolo",
-            "last_name": "Swag",
+            "FIRSTNAME": "Yolo",
+            "LASTNAME": "Swag",
             "role": "student",
         },
     8:
@@ -185,8 +185,8 @@ user = {
             "username": "admin",
             "password": "password",
             "email": "webmaster@rit.edu",
-            "first_name": "admin",
-            "last_name": "nimda",
+            "FIRSTNAME": "admin",
+            "LASTNAME": "nimda",
             "role": "admin",
         }
 }
@@ -211,18 +211,22 @@ professor = {
 student = {
     1:
         {
+            "id": 1,
             "user_id": 4,
         },
     2:
         {
+            "id": 2,
             "user_id": 5,
         },
     3:
         {
+            "id": 3,
             "user_id": 6,
         },
     4:
         {
+            "id": 4,
             "user_id": 7,
         }
 }
@@ -328,7 +332,7 @@ comment = {
             "student_section_id": 1,
             "comment": "Thanks",
             "created_time": 100000000,
-            "author": 4,
+            "USER_ID": 4,
         },
     2:
         {
@@ -336,7 +340,7 @@ comment = {
             "student_section_id": 1,
             "comment": "Good job!",
             "created_time": 100000000,
-            "author": 1,
+            "USER_ID": 1,
         },
     3:
         {
@@ -344,7 +348,7 @@ comment = {
             "student_section_id": 4,
             "comment": "You need to do better",
             "created_time": 100000000,
-            "author": 1,
+            "USER_ID": 1,
         },
     4:
         {
@@ -352,6 +356,6 @@ comment = {
             "student_section_id": 2,
             "comment": "Give me an A...or else.",
             "created_time": 100000000,
-            "author": 5,
+            "USER_ID": 5,
         },
 }

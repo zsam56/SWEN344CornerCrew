@@ -1,7 +1,7 @@
 from DB import *
 import requests
 
-mockAPI = False
+mockAPI = True
 apiBaseURL = "http://vm344d.se.rit.edu:3333/API/API.php"
 
 """
@@ -15,6 +15,14 @@ def getFromAPI(team, function, payload):
     if responseJSON == None:
         return {}
     return responseJSON
+
+"""
+:return student object given user_id
+"""
+def getStudent(user_id):
+    for stud in student.values():
+        if int(stud['user_id']) == int(user_id):
+            return stud['id']
 
 """
 :post to the API
@@ -33,7 +41,7 @@ def postToAPI(team, function, data):
 """
 def getSectionList():
     if mockAPI:
-        return list(section)
+        return list(section.values())
     else:
         section_list = []
         # the enrollment api is limited, so this is fun...
@@ -42,8 +50,8 @@ def getSectionList():
         for course in course_list:
             params = { 'courseID': course["ID"] }
             course_sections = getFromAPI('student_enrollment', 'getCourseSections', params)
-            for section in course_sections:
-                section["COURSE_ID"] = course["ID"]
+            for s in course_sections:
+                s["COURSE_ID"] = course["ID"]
             section_list.extend(course_sections)
         return section_list
 
@@ -113,7 +121,7 @@ def getSection(section_id):
         if (section_id in section):
             s = section[section_id]
             section_info = s
-            c = getCourse(s["course_id"])
+            c = getCourse(s["COURSE_ID"])
             section_info["course_name"] = c["name"]
             # We probably won't need the following fields from course information
             #section_info["credits"] = c["credits"]
@@ -135,7 +143,7 @@ def getProfessorSections(professor_id):
         section_list = []
         for s in getSectionList():
             if s["professor_id"] == professor_id:
-                section_list.append(getSection(s["id"]))
+                section_list.append(getSection(s["ID"]))
         return section_list
     else:
         params = { 'professorID': professor_id }
@@ -150,11 +158,11 @@ def getStudentSections(student_id):
         section_list = []
         for ss in list(student_section.values()):
             if int(student_id) == ss["student_id"]:
-                section = getSection(ss["section_id"])
-                section['id'] = ss['id']
-                section['section_id'] = ss["section_id"]
-                section['student_section_id'] = ss['student_section_id']
-                section_list.append(section)
+                sect = getSection(ss["section_id"])
+                sect['id'] = ss['id']
+                sect['section_id'] = ss["section_id"]
+                sect['student_section_id'] = ss['student_section_id']
+                section_list.append(sect)
         return section_list
     else:
         # get courseList
@@ -216,8 +224,8 @@ def getCommentsForStudentSection(student_section_id):
         comments = []
         for c in list(comment.values()):
             if c["student_section_id"] == student_section_id:
-                if (isinstance(c["author"], int)):
-                    c["author"] = getUser(c["author"])
+                if (isinstance(c["USER_ID"], int)):
+                    c["USER"] = getUser(c["USER_ID"])
                 comments.append(c)
         return comments
     else:
@@ -274,7 +282,6 @@ def getStudentComments(student_id):
 """
 def lockStudentGrade(student_id, section_id):
     ss_id = getStudentSection(student_id, section_id)
-
     if mockAPI:
         student_grade = getGradeForStudentSection(ss_id)
         student_grade['is_locked'] = 1
