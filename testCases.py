@@ -1,21 +1,22 @@
 from api_facade import *
 import unittest
 
-sectionKeyArray = ['professor_id', 'max_students', 'term_id', 'course_id', 'location_id', 'id']
-courseKeyArray = ['min_gpa', 'credits', 'course_code', 'name']
-studentGradeKeyArray = ['is_locked', 'student_section_id', 'last_modified', 'value']
+sectionKeyArray = ['CLASSROOM_ID', 'PROFESSOR_ID', 'AVAILABILITY', 'MAX_STUDENTS', 'TERM_ID', 'COURSE_ID', 'ID']
+courseKeyArray = ['NAME', 'ID', 'CREDITS', 'MIN_GPA', 'COURSE_CODE', 'AVAILABILITY']
+studentGradeKeyArray = ['IS_LOCKED', 'STUDENT_SECTION_ID', 'LAST_MODIFIED', 'ID', 'VALUE']
 
 class testCases(unittest.TestCase):
 
-    def testGetSectionList(self):
-        sectionList = getSectionList()
-        for key in sectionKeyArray:
-            if key not in sectionList[0]:
-                assert False
-        assert True
+    # def testGetSectionList(self):
+    #     sectionList = getSectionList()
+    #     print sectionList
+    #     for key in sectionKeyArray:
+    #         if key not in sectionList[0]:
+    #             assert False
+    #     assert True
 
     def testGetCourse(self):
-        course = getCourse('swen-101')
+        course = getCourse(1)
         for key in courseKeyArray:
             if key not in course:
                 assert False
@@ -23,34 +24,34 @@ class testCases(unittest.TestCase):
 
     def testGetUser(self):
         user = getUser(1)
-        if user['first_name'] == 'Dan' and user['last_name'] == 'Krutz':
+        if user['FIRSTNAME'] == 'John' and user['LASTNAME'] == 'Doe':
             assert True
         else:
             assert False
 
     def testGetNonexistantUser(self):
         user = getUser(666)
-        if user == None:
+        if not bool(user):
             assert True
         else:
             assert False
 
     def testGetNumGrades(self):
-        numGrades = getNumGrades('swen-344-01')
-        if numGrades == 4:
+        numGrades = getNumGrades(1)
+        if numGrades == 2:
             assert True
         else:
             assert False
 
     def testGetNumStudents(self):
-        numStudents = getNumStudents('swen-344-01')
-        if numStudents == 4:
+        numStudents = getNumStudents(1)
+        if numStudents == 3:
             assert True
         else:
             assert False
 
     def testGetSection(self):
-        section = getSection('swen-344-01')
+        section = getSection(1)
         for key in sectionKeyArray:
             if key not in section:
                 assert False
@@ -58,19 +59,19 @@ class testCases(unittest.TestCase):
 
     def testGetProffessorSections(self):
         sections = getProfessorSections(1)
-        if len(sections) == 2:
+        if len(sections) == 5:
             assert True
         else:
             assert False
 
     def testGetStudentSections(self):
         sections = getStudentSections(1)
-        if len(sections) == 2:
+        if len(sections) == 1:
             assert True
         else:
             assert False
 
-    def testgetGradeForStudentSection(self):
+    def testGetGradeForStudentSection(self):
         grade = getGradeForStudentSection(1)
         for key in studentGradeKeyArray:
             if key not in grade:
@@ -79,7 +80,7 @@ class testCases(unittest.TestCase):
 
     def testgetCommentsForStudentSection(self):
         comments = getCommentsForStudentSection(1)
-        if comments[0]['comment'] == 'Thanks':
+        if comments[0]['CONTENT'] == "I can't believe you didn't give me an A+!":
             assert True
         else:
             assert False
@@ -91,23 +92,19 @@ class testCases(unittest.TestCase):
         else:
             assert False
 
-    def testCheckIfProfessor(self):
+    def testCheckIfStudent(self):
         student = checkIfStudent(1)
-        if student == False:
+        if student:
             assert True
         else:
             assert False
 
-
     def testCheckIfStudent(self):
-        student = checkIfStudent(5)
+        student = checkIfStudent(4)
         if student == True:
             assert True
         else:
             assert False
-
-
-
 
 if __name__ == '__main__':
     unittest.main()

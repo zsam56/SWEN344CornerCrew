@@ -33,7 +33,7 @@ def postToAPI(team, function, data):
 """
 def getSectionList():
     if mockAPI:
-        return list(section.values())
+        return list(section)
     else:
         section_list = []
         # the enrollment api is limited, so this is fun...
@@ -43,7 +43,7 @@ def getSectionList():
             params = { 'courseID': course["ID"] }
             course_sections = getFromAPI('student_enrollment', 'getCourseSections', params)
             for section in course_sections:
-                section["COURSE_ID"]: course["ID"]
+                section["COURSE_ID"] = course["ID"]
             section_list.extend(course_sections)
         return section_list
 
@@ -57,7 +57,7 @@ def getCourse(course_id):
     else:
         params = { 'courseID': course_id }
         responseJSON = getFromAPI('general', 'getCourse', params)
-        return responseJSON;
+        return responseJSON
 
 """
 :return user dictionary
@@ -124,6 +124,7 @@ def getSection(section_id):
     else:
         params = { 'sectionID': section_id }
         responseJSON = getFromAPI('student_enrollment', 'getSection', params)
+        return responseJSON
 
 
 """
@@ -288,7 +289,7 @@ def lockStudentGrade(student_id, section_id):
 """
 def saveStudentGrade(student_id, section_id, new_grade):
     ss_id = getStudentSection(student_id, section_id)
-    grade_dict: { 'A': 90, 'B': 80, 'C': 70, 'D': 65, 'F': 50 }
+    grade_dict = { 'A': 90, 'B': 80, 'C': 70, 'D': 65, 'F': 50 }
     numGrade = grade_dict[new_grade]
     if mockAPI:
         student_grade = getGradeForStudentSection(ss_id)
