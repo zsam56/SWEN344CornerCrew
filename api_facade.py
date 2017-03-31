@@ -1,7 +1,7 @@
 from DB import *
 import requests
 
-mockAPI = True
+mockAPI = False
 apiBaseURL = "http://vm344d.se.rit.edu:3333/API/API.php"
 
 """
@@ -14,14 +14,36 @@ def getFromAPI(team, function, payload):
     responseJSON = r.json()
     if responseJSON == None:
         return {}
-    return r.json()
+    return responseJSON
+
+"""
+:post to the API
+"""
+def postToAPI(team, function, data):
+    postURL = apiBaseURL + '?team=' + team + '&function=' + function
+    r = requests.post(postURL, data)
+    responseJSON = r.json()
+    if responseJSON == None:
+        return {}
+    return responseJSON
+
 
 """
 :return a list of sections
 """
 def getSectionList():
-    return list(section.values())
-
+    if mockAPI:
+        return list(section.values())
+    else:
+        section_list = []
+        # the enrollment api is limited, so this is fun...
+        # first, get the list of all courses
+        course_list = getFromAPI('student_enrollment', 'getCourseList', {})
+        for course in course_list:
+            params = { 'courseID': course["ID"] }
+            course_sections = getFromAPI('student_enrollment', 'getCourseSections', params)
+            section_list.extend(course_sections)
+        return section_list
 
 """
 :return course information
@@ -146,6 +168,11 @@ def getStudentSection(student_id, section_id):
         for ss in list(student_section.values()):
             if int(student_id) == ss["student_id"] and section_id == ss["section_id"]:
                 return ss['student_section_id']
+    else:
+        section_list = getStudentSections(student_id)
+        for ss in section_list:
+            if int(student_id) == ss["STUDENT_ID"] and section_id == ss["SECTION_ID"]:
+                return ss["ID"]
 
 """
 :return the grade dictonary for that student section
@@ -202,14 +229,24 @@ def getGradesAndCommentsForSection(section_id):
 """
 def getStudentComments(student_id):
     comment_list = {}
-    for c in list(comment.values()):
-        if (student_id in c["student_course_id"]):
-            course_id = c["student_course_id"][:8]
-            if (course_id in comment_list):
-                comment_list[course_id].append(c)
+    if mockAPI:
+        for c in list(comment.values()):
+            if (student_id in c["student_course_id"]):
+                course_id = c["student_course_id"][:8]
+                if (course_id in comment_list):
+                    comment_list[course_id].append(c)
+                else:
+                    comment_list[course_id] = [c]
+        return comment_list
+    else:
+        params = { 'studentID': student_id }
+        responseJSON = getFromAPI('grading', 'getStudentComments', params)
+        for comment in responseJSON:
+            if comment['STUDENT_SECTION_ID'] in comment_list:
+                comment_list[comment['STUDENT_SECTION_ID']].append(comment)
             else:
-                comment_list[course_id] = [c]
-    return comment_list
+                comment_list[comment['STUDENT_SECTION_ID']] = [comment]
+        return comment_list
 
 """
 :update student grade to be locked
@@ -217,39 +254,44 @@ def getStudentComments(student_id):
 def lockStudentGrade(student_id, section_id):
     ss_id = getStudentSection(student_id, section_id)
 
-    student_grade = getGradeForStudentSection(ss_id)
-    #ENDPOINT
-    student_grade['is_locked'] = 1
-    return True
+    if mockAPI:
+        student_grade = getGradeForStudentSection(ss_id)
+        student_grade['is_locked'] = 1
+        return True
+    else:
+        data = { 'student_section_id': ss_id }
+        responseJSON = postToAPI('grading', 'postLockGrade', data)
+        return responseJSON
 
 """
 :update student grade
 """
 def saveStudentGrade(student_id, section_id, new_grade):
     ss_id = getStudentSection(student_id, section_id)
-    student_grade = getGradeForStudentSection(ss_id)
-    #ENDPOINT
-    if (new_grade == 'A'):
-        student_grade['VALUE'] = 90
-    elif new_grade == 'B':
-        student_grade['VALUE'] = 80
-    elif new_grade == 'C':
-        student_grade['VALUE'] = 70
-    elif new_grade == 'D':
-        student_grade['VALUE'] = 65
-    elif new_grade == 'F':
-        student_grade['VALUE'] = 50
-
+    grade_dict: { 'A': 90, 'B': 80, 'C': 70, 'D': 65, 'F': 50 }
+    numGrade = grade_dict[new_grade]
+    if mockAPI:
+        student_grade = getGradeForStudentSection(ss_id)
+        student_grade["VALUE"] = grade_dict[new_grade]
+    else:
+        data = { 'student_section_id': ss_id, 'value': numGrade }
+        responseJSON = postToAPI('grading', 'postUpdateGrade', data)
+        return responseJSON
 
 """
 :return True if the user is a student, False if not
 """
 def checkIfStudent(user_id):
-    for s in list(student.values()):
-        if int(user_id) == s['user_id']:
+    if mockAPI:
+        for s in list(student.values()):
+            if int(user_id) == s['user_id']:
+                return True
+        return False
+    else:
+        user = getUser(user_id)
+        if user['ROLE'] == "Student":
             return True
-    return False
-
+        return False
 
 """
 Simple unit tests
