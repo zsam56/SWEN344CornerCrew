@@ -15,6 +15,7 @@ def courseList():
     # TODO: update with student id
     if student:
         section_list = getStudentSections(1)
+
         for s in section_list:
             s['grade'] = (getGradeForStudentSection(s['ID']))
             if s['grade'] == None:

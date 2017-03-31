@@ -42,6 +42,8 @@ def getSectionList():
         for course in course_list:
             params = { 'courseID': course["ID"] }
             course_sections = getFromAPI('student_enrollment', 'getCourseSections', params)
+            for section in course_sections:
+                section["COURSE_ID"]: course["ID"]
             section_list.extend(course_sections)
         return section_list
 
@@ -77,7 +79,6 @@ def getUser(student_id):
 def getNumGrades(section_id):
     if mockAPI:
         count = 0
-        print(list(grade.values()))
         for g in list(grade.values()):
             ss = student_section[g["STUDENT_SECTION_ID"]]
             if (ss["section_id"] == section_id):
@@ -121,7 +122,7 @@ def getSection(section_id):
             section_info["num_students"] = getNumStudents(section_id)
         return section_info
     else:
-        params = { 'section_id': section_id }
+        params = { 'sectionID': section_id }
         responseJSON = getFromAPI('student_enrollment', 'getSection', params)
 
 
@@ -155,9 +156,28 @@ def getStudentSections(student_id):
                 section_list.append(section)
         return section_list
     else:
+        # get courseList
+        course_list = getFromAPI('student_enrollment', 'getCourseList', {})
+
+        course_sections_list = []
+        for course in course_list:
+            course_params = { 'courseID': course["ID"] }
+            course_sections = getFromAPI('student_enrollment', 'getCourseSections', course_params)
+            course_sections_list.extend(course_sections)
+        
+        # get studentSections
         params = { 'studentID': student_id }
-        responseJSON = getFromAPI('student_enrollment', 'getStudentSections', params)
-        return responseJSON
+        student_sections = getFromAPI('student_enrollment', 'getStudentSections', params)
+
+        for s_section in student_sections:
+            for c_section in course_sections_list:
+                if c_section["ID"] == s_section["SECTION_ID"]:
+                    s_section["COURSE_ID"] = c_section["COURSE_ID"]
+                    s_section["CLASSROOM_ID"] = c_section["CLASSROOM_ID"]
+                    break
+
+        return student_sections
+
 
 """
 returns the id of a student_section object that
@@ -201,9 +221,9 @@ def getCommentsForStudentSection(student_section_id):
         return comments
     else:
         params = { 'student_section_id': student_section_id }
-        responseJSON = getFromAPI('grading', 'getCommentsForStudentSection', params);
-        print(responseJSON)
-        return responseJSON
+        comments_list = getFromAPI('grading', 'getCommentsForStudentSection', params);
+            
+        return comments_list
 
 
 """
