@@ -21,11 +21,11 @@
                     {% endif %}
                         <td>
                             {% if not student %}
-                            <a href="/course/{{s['id']}}">
+                            <a href="/course/{{s['ID']}}">
                             {% endif %}
-                            {{ s['course_name'] }}
+                            {{ s['COURSE_ID'] }}
                             </br>
-                            {{ s['id'] }}
+                            {{ s['CLASSROOM_ID'] }}
                             {% if not student %}
                             </a>
                             {% endif %}
@@ -34,7 +34,7 @@
                             {% if student %}
                             {{ s['grade']['VALUE'] }}
                             {% else %}
-                            {{ s['num_graded'] }}/{{ s['num_students'] }}
+                            {{ s['num_graded'] }}/{{ s['MAX_STUDENTS'] }}
                             <br>
                             graded
                             {% endif %}
