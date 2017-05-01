@@ -236,6 +236,23 @@ def getCommentsForStudentSection(student_section_id):
 
 
 """
+:return a list of notification dictionaries for that student section
+"""
+def getNotificationssForStudentSection(student_section_id):
+    if mockAPI:
+        notifications = []
+        for n in list(notification.values()):
+            if n["student_section_id"] == student_section_id:
+                notifications.append(c)
+        return notifications
+    else:
+        params = {'student_section_id': student_section_id}
+        notifications_list = getFromAPI('grading', 'getNotificationsForStudentSection', params);
+
+        return notifications_list
+
+
+"""
 :return a dictionary with key being student user id and value "grade" with grade
         data and value "comment" with comment(s) data
 """
