@@ -243,7 +243,7 @@ def getNotificationssForStudentSection(student_section_id):
         notifications = []
         for n in list(notification.values()):
             if n["student_section_id"] == student_section_id:
-                notifications.append(c)
+                notifications.append(n)
         return notifications
     else:
         params = {'student_section_id': student_section_id}

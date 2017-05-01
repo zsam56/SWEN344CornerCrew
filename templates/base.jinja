@@ -29,6 +29,18 @@
         <a href="/courses" class="active">Grades</a>
     </div>
 
+    {% block notifcation %}
+        {% for n in notifications %}
+            <div class="topBanner">
+                <div style="float: left; padding-left: 10px">
+                    {{ n['message'] }}
+                </div>
+                <div style="float: right; padding-right: 10px">
+                    Dismiss
+                </div>
+            </div>
+        {% endfor %}
+    {% endblock %}
 
 
 

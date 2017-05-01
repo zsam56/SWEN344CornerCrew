@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 @app.route("/courses")
 def courseList():
-    student = False    # Use to test professor view
+    student = True   # Use to test professor view
     # student = checkIfStudent(4)     # Use to test student view
     # TODO: update with professor id
     # print(getProfessorSections(1))
@@ -16,12 +16,14 @@ def courseList():
     # TODO: update with student id
     if student:
         section_list = getStudentSections(1)
+        notifications = []
         for s in section_list:
             s['grade'] = (getGradeForStudentSection(s['id']))
             if s['grade'] == None:
                 s['grade'] = 'N/A'
             s['comments'] = getCommentsForStudentSection(s['id'])
-        return render_template('courseListPage.jinja', section_list=section_list, student=student)
+            notifications.append(getNotificationssForStudentSection(s['id']))
+        return render_template('courseListPage.jinja', section_list=section_list, student=student, notifications = notifications[0])
 
 
 @app.route("/course/<section_id>")
