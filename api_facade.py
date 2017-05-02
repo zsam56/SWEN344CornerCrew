@@ -1,8 +1,8 @@
 from DB import *
 import requests
 
-mockAPI = True
-apiBaseURL = "http://vm344d.se.rit.edu:3333/API/API.php"
+mockAPI = False
+apiBaseURL = "http://localhost:3333/API/API.php"
 
 """
 :return JSON response from API
@@ -200,8 +200,8 @@ def getStudentSection(student_id, section_id):
     else:
         section_list = getStudentSections(student_id)
         for ss in section_list:
-            if int(student_id) == ss["STUDENT_ID"] and section_id == ss["SECTION_ID"]:
-                return ss["ID"]
+            if int(section_id) == ss["SECTION_ID"]:
+                return ss["SECTION_ID"]
 
 """
 :return the grade dictonary for that student section
@@ -209,7 +209,7 @@ def getStudentSection(student_id, section_id):
 def getGradeForStudentSection(student_section_id):
     if mockAPI:
         for g in list(grade.values()):
-            if g["STUDENT_SECTION_ID"] == int(student_section_id):
+            if g["student_section_id"] == int(student_section_id):
                 return g
     else:
         params = {'student_section_id': student_section_id}
@@ -230,8 +230,7 @@ def getCommentsForStudentSection(student_section_id):
         return comments
     else:
         params = { 'student_section_id': student_section_id }
-        comments_list = getFromAPI('grading', 'getCommentsForStudentSection', params);
-            
+        comments_list = getFromAPI('grading', 'getCommentsForStudentSection', params)
         return comments_list
 
 
@@ -247,7 +246,7 @@ def getNotificationssForStudentSection(student_section_id):
         return notifications
     else:
         params = {'student_section_id': student_section_id}
-        notifications_list = getFromAPI('grading', 'getNotificationsForStudentSection', params);
+        notifications_list = getFromAPI('grading', 'getNotificationsForStudentSection', params)
 
         return notifications_list
 
@@ -257,18 +256,38 @@ def getNotificationssForStudentSection(student_section_id):
         data and value "comment" with comment(s) data
 """
 def getGradesAndCommentsForSection(section_id):
-    grades_comments = {}
-    for ss in list(student_section.values()):
-        student_id = ""
-        if (ss["section_id"] == section_id):
-            student_id = student[ss["student_id"]]["user_id"]
+    if mockAPI:
+        grades_comments = {}
+        for ss in list(student_section.values()):
+            student_id = ""
+            if (ss["section_id"] == section_id):
+                student_id = student[ss["student_id"]]["user_id"]
+                grades_comments[student_id] = {
+                    "student": getUser(student_id),
+                    "grade": getGradeForStudentSection(ss["id"]),
+                    "comments" : getCommentsForStudentSection(ss["id"])
+                }
+        return grades_comments
+    else:
+        grades_comments = {}
+        all_student_sections = getAllStudentSections(section_id)
+        for ss in all_student_sections:
+            student_id = ss['STUDENT_ID']
+            student_section_id = ss['ID']
+            print(student_section_id)
             grades_comments[student_id] = {
                 "student": getUser(student_id),
-                "grade": getGradeForStudentSection(ss["id"]),
-                "comments" : getCommentsForStudentSection(ss["id"])
+                "grade": getGradeForStudentSection(student_section_id),
+                "comments": getCommentsForStudentSection(student_section_id)
             }
-    return grades_comments
 
+        return grades_comments
+
+
+def getAllStudentSections(section_id):
+    params = {'sectionID': section_id}
+    return getFromAPI('student_enrollment', 'getAllStudentSections', params)
+    
 
 """
 :return dictionary with key being course id and value being a list of comments
@@ -304,6 +323,7 @@ def lockStudentGrade(student_id, section_id):
         student_grade['is_locked'] = 1
         return True
     else:
+        # lock the grade via the api
         data = { 'student_section_id': ss_id }
         responseJSON = postToAPI('grading', 'postLockGrade', data)
         return responseJSON
@@ -312,6 +332,8 @@ def lockStudentGrade(student_id, section_id):
 :update student grade
 """
 def saveStudentGrade(student_id, section_id, new_grade):
+    print(student_id)
+    print(section_id)
     ss_id = getStudentSection(student_id, section_id)
     grade_dict = { 'A': 90, 'B': 80, 'C': 70, 'D': 65, 'F': 50 }
     numGrade = grade_dict[new_grade]
@@ -337,6 +359,21 @@ def checkIfStudent(user_id):
         if user['ROLE'] == "Student":
             return True
         return False
+
+"""
+Post a comment on a grade
+"""
+def saveGradeComment(user_id, grade_id, comment_text):
+    if mockAPI:
+        print("NOT IMPLEMENETED IN MOCK")
+    else:
+        data = {
+            'user_id': user_id,
+            'grade_id': grade_id,
+            'comment': comment_text
+        }
+        responseJSON = postToAPI('grading', 'postGradeComment', data)
+        return responseJSON
 
 """
 Simple unit tests

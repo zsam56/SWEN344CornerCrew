@@ -24,14 +24,15 @@ def courseList():
         return render_template('courseListPage.jinja', section_list=section_list, student=student)
 
 
-@app.route("/course/<section_id>")
-def courseView(section_id):
+@app.route("/course/<course_id>/<section_id>")
+def courseView(course_id, section_id):
     lock_form = Forms.LockGradeForm()
     save_form = Forms.SaveGradeForm()
     section = getSection(section_id)
     grades_comments = getGradesAndCommentsForSection(section_id)
+
     #get the role of the user and load that with the template
-    return render_template('coursePage.jinja', professor=True, section=section, grades_comments=grades_comments, 
+    return render_template('coursePage.jinja', professor=True, course_id=course_id, section=section, grades_comments=grades_comments, 
         form=lock_form, save_form=save_form)
 
 @app.route("/save_grade", methods=['GET', 'POST'])
@@ -39,35 +40,21 @@ def saveGrades():
     save_form = Forms.SaveGradeForm(request.form)
     new_grade = save_form.new_grade.data
     user_id = save_form.student_id.data
+    course_id = save_form.course_id.data
     section_id = save_form.section_id.data
-    stud_id = getStudent(user_id)
-    saveStudentGrade(stud_id, section_id, new_grade)
+    saveStudentGrade(user_id, section_id, new_grade)
     
-    #def an easier way to refresh the page but I'm pressed for time
-    lock_form = Forms.LockGradeForm()
-    save_form = Forms.SaveGradeForm()
-    section = getSection(section_id)
-    grades_comments = getGradesAndCommentsForSection(section_id)
-    return render_template('coursePage.jinja', professor=True, section=section, grades_comments=grades_comments, 
-        form=lock_form, save_form=save_form)
+    return redirect(url_for('courseView', course_id=course_id, section_id=section_id))
 
 @app.route("/lock_grades", methods=['GET', 'POST'])
 def lockGrade():
     lock_form = Forms.LockGradeForm(request.form)
-    #This is acutally the user id, need to change
-    #this at some point
     user_id = lock_form.student_id.data
+    course_id = lock_form.course_id.data
     section_id = lock_form.section_id.data
-    stud_id = getStudent(user_id)
-    lockStudentGrade(stud_id, section_id)
+    lockStudentGrade(user_id, section_id)
 
-    #def an easier way to refresh the page but I'm pressed for time
-    lock_form = Forms.LockGradeForm()
-    save_form = Forms.SaveGradeForm()
-    section = getSection(section_id)
-    grades_comments = getGradesAndCommentsForSection(section_id)
-    return render_template('coursePage.jinja', professor=True, section=section, grades_comments=grades_comments, 
-        form=lock_form, save_form=save_form)
+    return redirect(url_for('courseView', course_id=course_id, section_id=section_id))
         
 if __name__ == "__main__":
     app.config['TEMPLATES_AUTO_RELOAD'] = True
