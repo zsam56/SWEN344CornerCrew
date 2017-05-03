@@ -9,6 +9,7 @@
             <table class="table">
                 <thead>
                   <tr>
+                    <th>Comments</th>
                     <th>Lock</th>
                     <th>Student</th>
                     <th>Grade</th>
@@ -18,6 +19,9 @@
                 <tbody>
                     {% for student_id in grades_comments %}
                         <tr class="collapsible-header">
+                            <td>
+                                <div class="right_caret">
+                                </div>
                             <td>
                                 {% if grades_comments[student_id]["grade"]["IS_LOCKED"] %}
                                     <img src="/static/icons/lock_icon.png" class="lock_img">
