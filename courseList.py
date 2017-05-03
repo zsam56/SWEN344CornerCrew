@@ -12,16 +12,14 @@ def home():
 @app.route("/login", methods=['POST'])
 def login():
     login_form = Forms.LoginForm(request.form)
-    username = login_form.username
-    password = login_form.password
-
+    username = login_form.username.data
+    password = login_form.password.data
     user = login_api(username, password)
-    print(user)
-    return redirect(url_for('courseView', user_id=user['ID']))
+    return redirect(url_for('courseList', user_id=user['ID']))
 
-@app.route("/courses")
-def courseList():
-    user_id = 1
+@app.route("/courses/<user_id>")
+def courseList(user_id):
+    user = getUser(user_id)
     if (checkIfStudent(user_id)):
         #student
         section_list = getStudentSections(user_id)
@@ -30,6 +28,7 @@ def courseList():
             if s['grade'] == None:
                 s['grade'] = 'N/A'
             s['comments'] = getCommentsForStudentSection(s['ID'])
+
         return render_template('courseListPage.jinja', section_list=section_list, student=student)
     else:
         #prof
@@ -42,7 +41,7 @@ def courseView(course_id, section_id):
     save_form = Forms.SaveGradeForm()
     section = getSection(section_id)
     grades_comments = getGradesAndCommentsForSection(section_id)
-
+    print(section)
     #get the role of the user and load that with the template
     return render_template('coursePage.jinja', professor=True, course_id=course_id, section=section, grades_comments=grades_comments, 
         form=lock_form, save_form=save_form)

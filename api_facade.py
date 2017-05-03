@@ -2,7 +2,7 @@ from DB import *
 import requests
 
 mockAPI = False
-apiBaseURL = "http://vm344d.se.rit.edu:3333/API/API.php"
+apiBaseURL = "http://localhost:3333/API/API.php"
 
 """
 :return JSON response from API
@@ -17,14 +17,6 @@ def getFromAPI(team, function, payload):
     return responseJSON
 
 """
-:return student object given user_id
-"""
-def getStudent(user_id):
-    for stud in student.values():
-        if int(stud['user_id']) == int(user_id):
-            return stud['id']
-
-"""
 :post to the API
 """
 def postToAPI(team, function, data):
@@ -34,7 +26,6 @@ def postToAPI(team, function, data):
     if responseJSON == None:
         return {}
     return responseJSON
-
 
 """
 :return a list of sections
@@ -76,7 +67,7 @@ def getStudent(student_id):
             return user[student_id]
         return None
     else:
-        params = { 'studentID': student_id }
+        params = { 'userID': student_id }
         responseJSON = getFromAPI('student_enrollment', 'getStudentUser', params)
         return responseJSON
 
@@ -186,24 +177,18 @@ def getStudentSections(student_id):
         # get studentSections
         params = { 'studentID': student_id }
         student_sections = getFromAPI('student_enrollment', 'getStudentSections', params)
+        print(student_sections)
         for s_section in student_sections:
-            s_section_dict = {
-                'ID': s_section['ID'],
-                'SECTION_ID': s_section['SECTION_ID'],
-                'COURSE_ID': None,
-                'CLASSROOM_ID': None
-            }
             for c_section in course_sections_list:
                 data = {
                     'courseID': c_section['COURSE_ID']
                 }
                 c_course = getFromAPI('general', 'getCourse', data)
-                prof = getUser(c_course["PROFESSOR_ID"])
-                if c_section["ID"] == s_section_dict["SECTION_ID"]:
-                    s_section_dict["COURSE_NAME"] = c_course["COURSE_NAME"]
-                    s_section_dict["COURSE_ID"] = c_section["COURSE_ID"]
-                    s_section_dict["CLASSROOM_ID"] = c_section["CLASSROOM_ID"]
-                    break
+                prof = getUser(c_section["PROFESSOR_ID"])
+                if c_section["ID"] == s_section["SECTION_ID"]:
+                    s_section["COURSE_NAME"] = c_course["NAME"]
+                    s_section["COURSE_ID"] = c_section["COURSE_ID"]
+                    s_section["CLASSROOM_ID"] = c_section["CLASSROOM_ID"]
 
         return student_sections
 
@@ -299,13 +284,12 @@ def getGradesAndCommentsForSection(section_id):
                 "grade": getGradeForStudentSection(student_section_id),
                 "comments": getCommentsForStudentSection(student_section_id)
             }
-
         return grades_comments
 
 
 def getAllStudentSections(section_id):
     params = {'sectionID': section_id}
-    return getFromAPI('student_enrollment', 'getAllStudentSections', params)
+    return getFromAPI('student_enrollment', 'getSectionEnrolled', params)
     
 
 """
@@ -400,8 +384,8 @@ def login_api(username, password):
         print("not implemented")
     else:
         data = {
-            'username': username,
-            'password': password
+            u'username': username,
+            u'password': password
         }
         responseJSON = postToAPI('general', 'login', data)
         return responseJSON
