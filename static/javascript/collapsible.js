@@ -1,6 +1,6 @@
 $(function() {
-    $(".comments-button").click(function () {
-        $header = $(this).parent().parent();
+    $("#comments").click(function () {
+        $header = $(this).parent();
         //getting the next element
         $content = $header.next();
         //open up the content needed - toggle the slide- if visible, slide up, if not slidedown.

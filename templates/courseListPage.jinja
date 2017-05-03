@@ -21,11 +21,13 @@
                     {% endif %}
                         <td>
                             {% if not student %}
-                            <a href="/course/{{s['ID']}}">
+                            <a href="/course/{{s['COURSE_ID']}}/{{s['ID']}}">
                             {% endif %}
                             Course ID: {{ s['COURSE_ID'] }}
                             </br>
-                            Classroom ID: {{ s['ID'] }}
+                            Section ID: {{ s['ID'] }}
+                            </br>
+                            Classroom ID: {{ s['CLASSROOM_ID'] }}
                             {% if not student %}
                             </a>
                             {% endif %}
