@@ -1,8 +1,8 @@
 from DB import *
 import requests
 
-mockAPI = True
-apiBaseURL = "http://vm344d.se.rit.edu:3333/API/API.php"
+mockAPI = False
+apiBaseURL = "http://localhost:3333/API/API.php"
 
 """
 :return JSON response from API
@@ -17,14 +17,6 @@ def getFromAPI(team, function, payload):
     return responseJSON
 
 """
-:return student object given user_id
-"""
-def getStudent(user_id):
-    for stud in student.values():
-        if int(stud['user_id']) == int(user_id):
-            return stud['id']
-
-"""
 :post to the API
 """
 def postToAPI(team, function, data):
@@ -34,7 +26,6 @@ def postToAPI(team, function, data):
     if responseJSON == None:
         return {}
     return responseJSON
-
 
 """
 :return a list of sections
@@ -70,16 +61,25 @@ def getCourse(course_id):
 """
 :return user dictionary
 """
-def getUser(student_id):
+def getStudent(student_id):
     if mockAPI:
         if (student_id in user):
             return user[student_id]
         return None
     else:
-        params = { 'studentID': student_id }
-        responseJSON = getFromAPI('general', 'getStudent', params)
+        params = { 'userID': student_id }
+        responseJSON = getFromAPI('student_enrollment', 'getStudentUser', params)
         return responseJSON
 
+def getUser(user_id):
+    if mockAPI:
+        if (user_id in user):
+            return user[user_id]
+        return None
+    else:
+        params = { 'userID': user_id }
+        responseJSON = getFromAPI('general', 'getUser', params)
+        return responseJSON
 
 """
 :return number of grades for that section
@@ -177,13 +177,18 @@ def getStudentSections(student_id):
         # get studentSections
         params = { 'studentID': student_id }
         student_sections = getFromAPI('student_enrollment', 'getStudentSections', params)
-
+        print(student_sections)
         for s_section in student_sections:
             for c_section in course_sections_list:
+                data = {
+                    'courseID': c_section['COURSE_ID']
+                }
+                c_course = getFromAPI('general', 'getCourse', data)
+                prof = getUser(c_section["PROFESSOR_ID"])
                 if c_section["ID"] == s_section["SECTION_ID"]:
+                    s_section["COURSE_NAME"] = c_course["NAME"]
                     s_section["COURSE_ID"] = c_section["COURSE_ID"]
                     s_section["CLASSROOM_ID"] = c_section["CLASSROOM_ID"]
-                    break
 
         return student_sections
 
@@ -200,7 +205,7 @@ def getStudentSection(student_id, section_id):
     else:
         section_list = getStudentSections(student_id)
         for ss in section_list:
-            if int(student_id) == ss["STUDENT_ID"] and section_id == ss["SECTION_ID"]:
+            if int(section_id) == ss["SECTION_ID"]:
                 return ss["ID"]
 
 """
@@ -209,7 +214,7 @@ def getStudentSection(student_id, section_id):
 def getGradeForStudentSection(student_section_id):
     if mockAPI:
         for g in list(grade.values()):
-            if g["STUDENT_SECTION_ID"] == int(student_section_id):
+            if g["student_section_id"] == int(student_section_id):
                 return g
     else:
         params = {'student_section_id': student_section_id}
@@ -225,13 +230,12 @@ def getCommentsForStudentSection(student_section_id):
         for c in list(comment.values()):
             if c["student_section_id"] == student_section_id:
                 if (isinstance(c["USER_ID"], int)):
-                    c["USER"] = getUser(c["USER_ID"])
+                    c["USER"] = getStudent(c["USER_ID"])
                 comments.append(c)
         return comments
     else:
         params = { 'student_section_id': student_section_id }
-        comments_list = getFromAPI('grading', 'getCommentsForStudentSection', params);
-            
+        comments_list = getFromAPI('grading', 'getCommentsForStudentSection', params)
         return comments_list
 
 
@@ -247,7 +251,7 @@ def getNotificationssForStudentSection(student_section_id):
         return notifications
     else:
         params = {'student_section_id': student_section_id}
-        notifications_list = getFromAPI('grading', 'getNotificationsForStudentSection', params);
+        notifications_list = getFromAPI('grading', 'getNotificationsForStudentSection', params)
 
         return notifications_list
 
@@ -257,18 +261,36 @@ def getNotificationssForStudentSection(student_section_id):
         data and value "comment" with comment(s) data
 """
 def getGradesAndCommentsForSection(section_id):
-    grades_comments = {}
-    for ss in list(student_section.values()):
-        student_id = ""
-        if (ss["section_id"] == section_id):
-            student_id = student[ss["student_id"]]["user_id"]
+    if mockAPI:
+        grades_comments = {}
+        for ss in list(student_section.values()):
+            student_id = ""
+            if (ss["section_id"] == section_id):
+                student_id = student[ss["student_id"]]["user_id"]
+                grades_comments[student_id] = {
+                    "student": getStudent(student_id),
+                    "grade": getGradeForStudentSection(ss["id"]),
+                    "comments" : getCommentsForStudentSection(ss["id"])
+                }
+        return grades_comments
+    else:
+        grades_comments = {}
+        all_student_sections = getAllStudentSections(section_id)
+        for ss in all_student_sections:
+            student_id = ss['STUDENT_ID']
+            student_section_id = ss['ID']
             grades_comments[student_id] = {
-                "student": getUser(student_id),
-                "grade": getGradeForStudentSection(ss["id"]),
-                "comments" : getCommentsForStudentSection(ss["id"])
+                "student": getStudent(student_id),
+                "grade": getGradeForStudentSection(student_section_id),
+                "comments": getCommentsForStudentSection(student_section_id)
             }
-    return grades_comments
+        return grades_comments
 
+
+def getAllStudentSections(section_id):
+    params = {'sectionID': section_id}
+    return getFromAPI('student_enrollment', 'getSectionEnrolled', params)
+    
 
 """
 :return dictionary with key being course id and value being a list of comments
@@ -304,6 +326,7 @@ def lockStudentGrade(student_id, section_id):
         student_grade['is_locked'] = 1
         return True
     else:
+        # lock the grade via the api
         data = { 'student_section_id': ss_id }
         responseJSON = postToAPI('grading', 'postLockGrade', data)
         return responseJSON
@@ -337,6 +360,35 @@ def checkIfStudent(user_id):
         if user['ROLE'] == "Student":
             return True
         return False
+
+"""
+Post a comment on a grade
+"""
+def saveGradeComment(user_id, grade_id, comment_text):
+    if mockAPI:
+        print("NOT IMPLEMENETED IN MOCK")
+    else:
+        data = {
+            'user_id': user_id,
+            'grade_id': grade_id,
+            'comment': comment_text
+        }
+        responseJSON = postToAPI('grading', 'postGradeComment', data)
+        return responseJSON
+
+"""
+Login
+"""
+def login_api(username, password):
+    if mockAPI:
+        print("not implemented")
+    else:
+        data = {
+            u'username': username,
+            u'password': password
+        }
+        responseJSON = postToAPI('general', 'login', data)
+        return responseJSON
 
 """
 Simple unit tests
