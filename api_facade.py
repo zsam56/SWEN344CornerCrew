@@ -177,12 +177,17 @@ def getStudentSections(student_id):
         # get studentSections
         params = { 'studentID': student_id }
         student_sections = getFromAPI('student_enrollment', 'getStudentSections', params)
-
         for s_section in student_sections:
+            s_section_dict = {
+                'ID': s_section['ID'],
+                'SECTION_ID': s_section['SECTION_ID'],
+                'COURSE_ID': None,
+                'CLASSROOM_ID': None
+            }
             for c_section in course_sections_list:
-                if c_section["ID"] == s_section["SECTION_ID"]:
-                    s_section["COURSE_ID"] = c_section["COURSE_ID"]
-                    s_section["CLASSROOM_ID"] = c_section["CLASSROOM_ID"]
+                if c_section["ID"] == s_section_dict["SECTION_ID"]:
+                    s_section_dict["COURSE_ID"] = c_section["COURSE_ID"]
+                    s_section_dict["CLASSROOM_ID"] = c_section["CLASSROOM_ID"]
                     break
 
         return student_sections
@@ -201,7 +206,7 @@ def getStudentSection(student_id, section_id):
         section_list = getStudentSections(student_id)
         for ss in section_list:
             if int(section_id) == ss["SECTION_ID"]:
-                return ss["SECTION_ID"]
+                return ss["ID"]
 
 """
 :return the grade dictonary for that student section
@@ -274,7 +279,6 @@ def getGradesAndCommentsForSection(section_id):
         for ss in all_student_sections:
             student_id = ss['STUDENT_ID']
             student_section_id = ss['ID']
-            print(student_section_id)
             grades_comments[student_id] = {
                 "student": getUser(student_id),
                 "grade": getGradeForStudentSection(student_section_id),
@@ -332,8 +336,6 @@ def lockStudentGrade(student_id, section_id):
 :update student grade
 """
 def saveStudentGrade(student_id, section_id, new_grade):
-    print(student_id)
-    print(section_id)
     ss_id = getStudentSection(student_id, section_id)
     grade_dict = { 'A': 90, 'B': 80, 'C': 70, 'D': 65, 'F': 50 }
     numGrade = grade_dict[new_grade]
