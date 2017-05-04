@@ -58,7 +58,7 @@ class testCases(unittest.TestCase):
         assert True
 
     def testGetProffessorSections(self):
-        sections = getProfessorSections(1)
+        sections = getProfessorSections(10)
         if len(sections) == 5:
             assert True
         else:
@@ -86,8 +86,8 @@ class testCases(unittest.TestCase):
             assert False
 
     def testGetGradesAndCommentsForSection(self):
-        gradesAndComments = getGradesAndCommentsForSection('swen-344-01')
-        if 'grade' in gradesAndComments[4] and 'comments' in gradesAndComments[4]:
+        gradesAndComments = getGradesAndCommentsForSection(1)
+        if 'grade' in gradesAndComments[1] and 'comments' in gradesAndComments[1]:
             assert True
         else:
             assert False

@@ -2,7 +2,7 @@ from DB import *
 import requests
 
 mockAPI = False
-apiBaseURL = "http://localhost:3333/API/API.php"
+apiBaseURL = "http://vm344d.se.rit.edu:3333/API/API.php"
 
 """
 :return JSON response from API
