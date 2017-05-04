@@ -367,20 +367,20 @@ notification = {
         "created_time": 100000000,
         "is_expired": 0,
         "message": "Notification 1",
-        "student_section_id": 1,
+        "student_section_id": 4,
     },
     2: {
         "id": 2,
         "created_time": 100000000,
         "is_expired": 0,
         "message": "This is a notification2",
-        "student_section_id": 1,
+        "student_section_id": 5,
     },
     3: {
         "id": 3,
         "created_time": 100000000,
         "is_expired": 0,
         "message": "Grade availabe to view",
-        "student_section_id": 2,
+        "student_section_id": 4,
     },
 }
