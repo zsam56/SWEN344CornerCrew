@@ -10,6 +10,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="{{url_for('static', filename='javascript/collapsible.js')}}"></script>
+    <script src="{{url_for('static', filename='javascript/base.js')}}"></script>
 
 </head>
 <body>
@@ -31,18 +32,20 @@
 
     {% block notifcation %}
         {% for n in notifications %}
-            <div class="topBanner">
-                <div style="float: left; padding-left: 10px">
+            {% if not n['is_expired'] %}
+            <div class="topBanner bannerColor" id="notification-{{ n['id'] }}">
+                <div class="message">
                     {{ n['message'] }}
                 </div>
-                <div style="float: right; padding-right: 10px">
-                    Dismiss
+                <div class="dismissAlign">
+                    <form>
+                        <input type="button" name="dismiss" value="dismiss" class="dismissButton" onclick="expireNotif({{ n['id'] }})">
+                    </form>
                 </div>
             </div>
+            {% endif %}
         {% endfor %}
     {% endblock %}
-
-
 
 {% block body %}
 {% endblock %}

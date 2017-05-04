@@ -1,7 +1,7 @@
 from __future__ import print_function
 import sys
 import Forms
-from flask import Flask, render_template, url_for, request, redirect
+from flask import Flask, render_template, url_for, request, redirect, jsonify
 from api_facade import *
 app = Flask(__name__)
 
@@ -70,7 +70,14 @@ def lockGrade():
     grades_comments = getGradesAndCommentsForSection(section_id)
     return render_template('coursePage.jinja', professor=True, section=section, grades_comments=grades_comments, 
         form=lock_form, save_form=save_form)
-        
+
+
+
+@app.route("/expireNotification", methods=["POST"])
+def expireNotification():
+    markAsExpired(request.form['id'])
+    return jsonify({'key':'value'})
+
 if __name__ == "__main__":
     app.config['TEMPLATES_AUTO_RELOAD'] = True
     app.run()

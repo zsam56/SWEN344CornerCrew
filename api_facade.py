@@ -339,6 +339,16 @@ def checkIfStudent(user_id):
         return False
 
 """
+Marks notification as expired
+"""
+def markAsExpired(notificationID):
+    if mockAPI:
+        for n in list(notification.values()):
+            if str(n["id"]) == str(notificationID):
+                n["is_expired"] = 1
+    # else: need to add once api function is added
+
+"""
 Simple unit tests
 """
 def unit_test():
