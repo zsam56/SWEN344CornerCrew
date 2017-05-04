@@ -29,7 +29,6 @@ def courseList(user_id):
             if s['grade'] == None:
                 s['grade'] = 'N/A'
             s['comments'] = getCommentsForStudentSection(s['ID'])
-            print(getNotificationssForStudentSection(s['SECTION_ID']))
             notifications.append(getNotificationssForStudentSection(s['SECTION_ID']))
             notifications = notifications[0]
         return render_template('courseListPage.jinja', section_list=section_list, student=student, notifications=notifications)
