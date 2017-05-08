@@ -1,17 +1,9 @@
 from __future__ import print_function
 import sys
 import Forms
-import twitter
 from flask import Flask, render_template, url_for, request, redirect, jsonify
 from api_facade import *
 app = Flask(__name__)
-
-#configure Twitter API
-# twitter = Twitter(
-#             auth=OAuth(os.environ.get('OAUTH_TOKEN'), os.environ.get('OAUTH_SECRET'),
-#                        os.environ.get('CONSUMER_KEY'), os.environ.get('CONSUMER_SECRET'))           
-
-#            )
 
 @app.route("/")
 def home():
