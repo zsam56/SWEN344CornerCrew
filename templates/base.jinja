@@ -22,15 +22,6 @@
         </div>
     </div>
 
-    <div class="topnav">
-        <a href="#bookstore">Bookstore</a>
-        <a href="#hr">University HR</a>
-        <a href="#fms">FMS</a>
-        <a href="#enrollments">Enrollment</a>
-        <a href="#coop">Co-op Eval</a>
-        <a href="/courses" class="active">Grades</a>
-    </div>
-
     {% block notifcation %}
         {% for n in notifications %}
             {% if not n['is_expired'] %}
@@ -48,11 +39,7 @@
         {% endfor %}
     {% endblock %}
 
-    <div class="twitter-container">
-        <a class="twitter-timeline"  href="https://twitter.com/hashtag/RITSWEN344_1" data-widget-id="861606291864682502">#RITSWEN344_1 Tweets</a>
-
-        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-    </div>
+    
 
 
 

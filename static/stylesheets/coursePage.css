@@ -41,3 +41,15 @@
 .hidden_input{
 	display: none;
 }
+
+.twitter-container{
+    width: 70%;
+    margin: 0 auto;
+    margin-top: 15px;
+    height: 150px !important;
+    margin-bottom: 25px;
+}
+
+.twitter-timeline{
+    height: 150px !important;
+}

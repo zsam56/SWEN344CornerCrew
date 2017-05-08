@@ -402,6 +402,19 @@ def markAsExpired(notificationID):
                 n["is_expired"] = 1
     # else: need to add once api function is added
 
+"""
+get the hashtag for a twitter search query
+"""
+def getClassHashtag(section):
+    class_id = section['CLASSROOM_ID'] #1
+    course = getCourse(section['CLASSROOM_ID'])
+    course_code = course['COURSE_CODE'] #SWEN-344
+    course_code = course_code.replace('-', "")
+    hashtag = "RIT" + course_code + "_" + str(class_id)
+    print(hashtag)
+    return hashtag
+
+
 
 """
 Simple unit tests
