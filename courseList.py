@@ -1,7 +1,7 @@
 from __future__ import print_function
 import sys
 import Forms
-from flask import Flask, render_template, url_for, request, redirect
+from flask import Flask, render_template, url_for, request, redirect, jsonify
 from api_facade import *
 app = Flask(__name__)
 
@@ -22,14 +22,16 @@ def courseList(user_id):
     user = getUser(user_id)
     if (checkIfStudent(user_id)):
         #student
+        notifications = []
         section_list = getStudentSections(user_id)
         for s in section_list:
             s['grade'] = (getGradeForStudentSection(s['ID']))
             if s['grade'] == None:
                 s['grade'] = 'N/A'
             s['comments'] = getCommentsForStudentSection(s['ID'])
-
-        return render_template('courseListPage.jinja', section_list=section_list, student=student)
+            notifications.append(getNotificationssForStudentSection(s['SECTION_ID']))
+            notifications = notifications[0]
+        return render_template('courseListPage.jinja', section_list=section_list, student=student, notifications=notifications)
     else:
         #prof
         return render_template('courseListPage.jinja', section_list=getProfessorSections(user_id), student=False)
@@ -66,7 +68,12 @@ def lockGrade():
     lockStudentGrade(user_id, section_id)
 
     return redirect(url_for('courseView', course_id=course_id, section_id=section_id))
-        
+
+@app.route("/expireNotification", methods=["POST"])
+def expireNotification():
+    markAsExpired(request.form['id'])
+    return jsonify({'key':'value'})
+
 if __name__ == "__main__":
     app.config['TEMPLATES_AUTO_RELOAD'] = True
     app.run()

@@ -177,7 +177,6 @@ def getStudentSections(student_id):
         # get studentSections
         params = { 'studentID': student_id }
         student_sections = getFromAPI('student_enrollment', 'getStudentSections', params)
-        print(student_sections)
         for s_section in student_sections:
             for c_section in course_sections_list:
                 data = {
@@ -243,11 +242,12 @@ def getCommentsForStudentSection(student_section_id):
 :return a list of notification dictionaries for that student section
 """
 def getNotificationssForStudentSection(student_section_id):
+    mockAPI = True
     if mockAPI:
         notifications = []
         for n in list(notification.values()):
             if n["student_section_id"] == student_section_id:
-                notifications.append(c)
+                notifications.append(n)
         return notifications
     else:
         params = {'student_section_id': student_section_id}
@@ -389,6 +389,19 @@ def login_api(username, password):
         }
         responseJSON = postToAPI('general', 'login', data)
         return responseJSON
+
+
+"""
+Marks notification as expired
+"""
+def markAsExpired(notificationID):
+    mockAPI = True
+    if mockAPI:
+        for n in list(notification.values()):
+            if str(n["id"]) == str(notificationID):
+                n["is_expired"] = 1
+    # else: need to add once api function is added
+
 
 """
 Simple unit tests

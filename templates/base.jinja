@@ -11,6 +11,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="{{url_for('static', filename='javascript/collapsible.js')}}"></script>
+    <script src="{{url_for('static', filename='javascript/notification.js')}}"></script>
 
 </head>
 <body>
@@ -29,6 +30,23 @@
         <a href="#coop">Co-op Eval</a>
         <a href="/courses" class="active">Grades</a>
     </div>
+
+    {% block notifcation %}
+        {% for n in notifications %}
+            {% if not n['is_expired'] %}
+            <div class="topBanner bannerColor" id="notification-{{ n['id'] }}">
+                <div class="message">
+                    {{ n['message'] }}
+                </div>
+                <div class="dismissAlign">
+                    <form>
+                        <input type="button" name="dismiss" value="dismiss" class="dismissButton" onclick="expireNotif({{ n['id'] }})">
+                    </form>
+                </div>
+            </div>
+            {% endif %}
+        {% endfor %}
+    {% endblock %}
 
 
 
