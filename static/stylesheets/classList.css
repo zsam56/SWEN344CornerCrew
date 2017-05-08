@@ -1,6 +1,6 @@
 .centerDiv {
     position: fixed;
-    top: 60%;
+    top: 70%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 70%;
@@ -17,7 +17,7 @@
 .titleDiv {
     position: fixed;
     font-size: 25px;
-    top: 30%;
+    top: 54%;
     left: 50%;
     transform: translate(-50%, -50%);
     padding-top: 20px;

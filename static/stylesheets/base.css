@@ -60,3 +60,21 @@ body {margin:0;}
     float: right;
     padding-right: 10px
 }
+
+#twitter-widget-0{
+    width: 200px;
+    height: 150px;
+}
+
+.twitter-container{
+    width: 200px !important;
+    height: 150px !important;
+    position: absolute !important;
+    left: 14% !important;
+    top: 21% !important;
+}
+
+.twitter-timeline{
+    width: 200px !important;
+    height: 150px !important;
+}
