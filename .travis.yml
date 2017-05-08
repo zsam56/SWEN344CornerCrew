@@ -12,6 +12,9 @@ python:
   - "3.7-dev" # 3.7 development branch
   - "nightly" # currently points to 3.7-dev
 # command to install dependencies
-install: "pip install tox"
+install: 
+-"pip install requests"
+-"pip install flask"
+-"pip install WTForms"
 # command to run tests
 script: "python testCases.py"
