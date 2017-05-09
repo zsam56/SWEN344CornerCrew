@@ -148,6 +148,10 @@ def getProfessorSections(professor_id):
     else:
         params = { 'professorID': professor_id }
         responseJSON = getFromAPI('student_enrollment', 'getProfessorSections', params)
+        for s_section in responseJSON:
+            course = getCourse(s_section['COURSE_ID'])
+            s_section["COURSE_NAME"] = course["NAME"]
+            
         return responseJSON
 
 """
