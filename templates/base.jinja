@@ -24,14 +24,14 @@
 
     {% block notifcation %}
         {% for n in notifications %}
-            {% if not n['is_expired'] %}
-            <div class="topBanner bannerColor" id="notification-{{ n['id'] }}">
+            {% if not n['IS_EXPIRED'] %}
+            <div class="topBanner bannerColor" id="notification-{{ n['ID'] }}">
                 <div class="message">
-                    {{ n['message'] }}
+                    {{ n['MESSAGE'] }}
                 </div>
                 <div class="dismissAlign">
                     <form>
-                        <input type="button" name="dismiss" value="dismiss" class="dismissButton" onclick="expireNotif({{ n['id'] }})">
+                        <input type="button" name="dismiss" value="dismiss" class="dismissButton" onclick="expireNotif({{ n['ID'] }})">
                     </form>
                 </div>
             </div>
