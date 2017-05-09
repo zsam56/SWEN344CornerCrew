@@ -53,9 +53,9 @@
                                     {{ grades_comments[student_id]["student"]["LASTNAME"] }}</strong>
                                 </td>
                                 <td>
-                                    <strong>{{ grades_comments[student_id]["grade"]["VALUE"] }}</strong>
+                                    <strong class="grade-text">{{ grades_comments[student_id]["grade"]["VALUE"] }}</strong>
                                     {% if not grades_comments[student_id]["grade"]["IS_LOCKED"] %}
-                                        <form action="/save_grade" method="post">
+                                        <form action="/save_grade" class="save_form" method="post">
                                             {{save_form.new_grade}}
                                             {{save_form.student_id(value=student_id)}}
                                             {{save_form.section_id(value=section['ID'])}}

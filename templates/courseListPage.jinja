@@ -23,12 +23,12 @@
                             {% if not student %}
                             <a href="/course/{{s['COURSE_ID']}}/{{s['ID']}}">
                             {% endif %}
-                            Course Name: {{ s['COURSE_NAME'] }}
-                            </br>
-                            Section ID: {{ s['ID'] }}
+                            {{ s['COURSE_NAME'] }}
                             {% if not student %}
                             </a>
                             {% endif %}
+                            </br>
+                            Section ID: {{ s['ID'] }}
                         </td>
                         <td>
                             {% if student %}

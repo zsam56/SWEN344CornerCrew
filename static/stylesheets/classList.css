@@ -22,3 +22,8 @@ thead{
     background-color: #333333;
     color: white;
 }
+
+table{
+    background-color: #edeae8 !important;
+    margin-bottom: 0px !important;
+}
