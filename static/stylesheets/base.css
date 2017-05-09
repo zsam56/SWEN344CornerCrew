@@ -60,3 +60,8 @@ body {margin:0;}
     float: right;
     padding-right: 10px
 }
+
+#twitter-widget-0{
+    width: 200px;
+    height: 150px;
+}

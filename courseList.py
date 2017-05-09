@@ -43,10 +43,10 @@ def courseView(course_id, section_id):
     save_form = Forms.SaveGradeForm()
     section = getSection(section_id)
     grades_comments = getGradesAndCommentsForSection(section_id)
-    print(section)
+    hashtag = getClassHashtag(section)
     #get the role of the user and load that with the template
     return render_template('coursePage.jinja', professor=True, course_id=course_id, section=section, grades_comments=grades_comments, 
-        form=lock_form, save_form=save_form)
+        form=lock_form, save_form=save_form, hashtag=hashtag)
 
 @app.route("/save_grade", methods=['GET', 'POST'])
 def saveGrades():
