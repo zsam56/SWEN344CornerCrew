@@ -2,7 +2,7 @@ from DB import *
 import requests
 
 mockAPI = False
-apiBaseURL = "http://vm344d.se.rit.edu:3333/API/API.php"
+apiBaseURL = "http://localhost:3333/API/API.php"
 
 """
 :return JSON response from API
@@ -242,7 +242,6 @@ def getCommentsForStudentSection(student_section_id):
 :return a list of notification dictionaries for that student section
 """
 def getNotificationssForStudentSection(student_section_id):
-    mockAPI = True
     if mockAPI:
         notifications = []
         for n in list(notification.values()):
@@ -250,9 +249,8 @@ def getNotificationssForStudentSection(student_section_id):
                 notifications.append(n)
         return notifications
     else:
-        params = {'student_section_id': student_section_id}
+        params = {'studentsection_id': student_section_id}
         notifications_list = getFromAPI('grading', 'getNotificationsForStudentSection', params)
-
         return notifications_list
 
 
@@ -395,12 +393,16 @@ def login_api(username, password):
 Marks notification as expired
 """
 def markAsExpired(notificationID):
-    mockAPI = True
     if mockAPI:
         for n in list(notification.values()):
             if str(n["id"]) == str(notificationID):
                 n["is_expired"] = 1
-    # else: need to add once api function is added
+    else:
+        data = {
+            'id': notificationID
+        }
+        responseJSON = postToAPI('grading', 'expireNotification', data)
+        return responseJSON
 
 """
 get the hashtag for a twitter search query
