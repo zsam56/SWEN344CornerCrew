@@ -2,111 +2,127 @@
 """                 COURSE/SECTION                 """
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
 course = {
-    'swen-101':
+    1:
         {
-            "name": "Freshman Seminar",
-            "course_code": "swen-101",
-            "credits": 3,
-            "min_gpa": 2,
+            "ID": 1,
+            "NAME": "Freshman Seminar",
+            "COURSE_CODE": "swen-101",
+            "CREDITS": 3,
+            "MIN_GPA": 2,
         },
-    'swen-220':
+    2:
         {
-            "name": "Math Models",
-            "course_code": "swen-220",
-            "credits": 3,
-            "min_gpa": 2,
+            "ID": 2,
+            "NAME": "Math Models",
+            "COURSE_CODE": "swen-220",
+            "CREDITS": 3,
+            "MIN_GPA": 2,
         },
-    'swen-250':
+    3:
         {
-            "name": "Personal Software Engineering",
-            "course_code": "swen-250",
-            "credits": 3,
-            "min_gpa": 2,
+            "ID": 3,
+            "NAME": "Personal Software Engineering",
+            "COURSE_CODE": "swen-250",
+            "CREDITS": 3,
+            "MIN_GPA": 2,
         },
-    'swen-256':
+    4:
         {
-            "name": "Software Process and Project Management",
-            "course_code": "swen-256",
-            "credits": 3,
-            "min_gpa": 2,
+            "ID": 4,
+            "NAME": "Software Process and Project Management",
+            "COURSE_CODE": "swen-256",
+            "CREDITS": 3,
+            "MIN_GPA": 2,
         },
-    'swen-261':
+    5:
         {
-            "name": "Introduction to Software Engineering",
-            "course_code": "swen-261",
-            "credits": 3,
-            "min_gpa": 2,
+            "ID": 5,
+            "NAME": "Introduction to Software Engineering",
+            "COURSE_CODE": "swen-261",
+            "CREDITS": 3,
+            "MIN_GPA": 2,
         },
-    'swen-262':
+    6:
         {
-            "name": "Engineering of Software Subsystems",
-            "course_code": "swen-262",
-            "credits": 3,
-            "min_gpa": 2,
+            "ID": 6,
+            "NAME": "Engineering of Software Subsystems",
+            "COURSE_CODE": "swen-262",
+            "CREDITS": 3,
+            "MIN_GPA": 2,
         },
-    'swen-344':
+    7:
         {
-            "name": "Web Engineering",
-            "course_code": "swen-344",
-            "credits": 3,
-            "min_gpa": 2,
+            "ID": 7,
+            "NAME": "Web Engineering",
+            "COURSE_CODE": "swen-344",
+            "CREDITS": 3,
+            "MIN_GPA": 2,
         },
-    'swen-331':
+    8:
         {
-            "name": "Engineering Secure Software",
-            "course_code": "swen-331",
-            "credits": 3,
-            "min_gpa": 2,
+            "ID": 8,
+            "NAME": "Engineering Secure Software",
+            "COURSE_CODE": "swen-331",
+            "CREDITS": 3,
+            "MIN_GPA": 2,
         },
-    'swen-440':
+    9:
         {
-            "name": "Software System Requirements and Architecture",
-            "course_code": "swen-440",
-            "credits": 3,
-            "min_gpa": 2,
+            "ID": 9,
+            "NAME": "Software System Requirements and Architecture",
+            "COURSE_CODE": "swen-440",
+            "CREDITS": 3,
+            "MIN_GPA": 2,
         },
-    'swen-444':
+    10:
         {
-            "name": "Human Centered Requirements and Design",
-            "course_code": "swen-444",
-            "credits": 3,
-            "min_gpa": 2,
+            "ID": 10,
+            "NAME": "Human Centered Requirements and Design",
+            "COURSE_CODE": "swen-444",
+            "CREDITS": 3,
+            "MIN_GPA": 2,
         },
-    'swen-561':
+    11:
         {
-            "name": "Senior Project I",
-            "course_code": "swen-561",
-            "credits": 3,
-            "min_gpa": 2,
+            "ID": 11,
+            "NAME": "Senior Project I",
+            "COURSE_CODE": "swen-561",
+            "CREDITS": 3,
+            "MIN_GPA": 2,
         },
-    'swen-562':
+    12:
         {
-            "name": "Senior Project II",
-            "course_code": "swen-562",
-            "credits": 3,
-            "min_gpa": 2,
+            "ID": 12,
+            "NAME": "Senior Project II",
+            "COURSE_CODE": "swen-562",
+            "CREDITS": 3,
+            "MIN_GPA": 2,
         },
 }
 
 
 section = {
-    "swen-344-01":
+    1:
         {
-            "ID": "swen-344-01",
+            "ID": 1,
             "MAX_STUDENTS": 20,
-            "professor_id": 1,
-            "COURSE_ID": "swen-344",
-            "term_id": 201617,
-            "location_id": 0,
+            "PROFESSOR_ID": 1,
+            "COURSE_ID": 7,
+            "TERM_ID": 201617,
+            "LOCATION_ID": 0,
+            "CLASSROOM_ID": 0,
+            "AVAILABILITY": 10
         },
-    "swen-344-02":
+    2:
         {
-            "ID": "swen-344-02",
+            "ID": 2,
             "MAX_STUDENTS": 20,
-            "professor_id": 1,
-            "COURSE_ID": "swen-344",
-            "term_id": 201617,
-            "location_id": 0,
+            "PROFESSOR_ID": 1,
+            "COURSE_ID": 7,
+            "TERM_ID": 201617,
+            "LOCATION_ID": 0,
+            "CLASSROOM_ID": 0,
+            "AVAILABILITY": 10
         }
 }
 
@@ -122,8 +138,8 @@ user = {
             "username": "krutz",
             "password": "password",
             "email": "krutz@se.rit.edu",
-            "FIRSTNAME": "Dan",
-            "LASTNAME": "Krutz",
+            "FIRSTNAME": "John",
+            "LASTNAME": "Doe",
             "role": "professor",
         },
      2:
@@ -246,32 +262,32 @@ admin = {
 
 
 student_section = {
-    1:
+    4:
         {
             "id": 1,
             "student_id": 1,
-            "section_id": "swen-344-01",
+            "section_id": 1,
             "student_section_id": 1,
         },
     2:
         {
             "id": 2,
             "student_id": 2,
-            "section_id": "swen-344-01",
+            "section_id": 1,
             "student_section_id": 2,
         },
     3:
         {
             "id": 3,
             "student_id": 3,
-            "section_id": "swen-344-01",
+            "section_id": 1,
             "student_section_id": 3,
         },
-    4:
+    1:
         {
             "id": 4,
             "student_id": 4,
-            "section_id": "swen-344-01",
+            "section_id": 1,
             "student_section_id": 4,
         },
     5:
