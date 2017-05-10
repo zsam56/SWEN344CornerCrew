@@ -370,11 +370,7 @@ def saveGradeComment(user_id, grade_id, comment_text):
     if mockAPI:
         print("NOT IMPLEMENETED IN MOCK")
     else:
-        data = {
-            'user_id': user_id,
-            'grade_id': grade_id,
-            'comment': comment_text
-        }
+        data = { 'user_id': user_id, 'grade_id': grade_id, 'content': comment_text }
         responseJSON = postToAPI('grading', 'postGradeComment', data)
         return responseJSON
 
@@ -421,4 +417,4 @@ def getClassHashtag(section):
 
 
 if __name__ == "__main__":
-    unit_test()
+    pass
