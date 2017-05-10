@@ -12,4 +12,9 @@ Install Flask (may need to run with `sudo`)
 pip install Flask
 ```
 
+Install dependencies
+```
+pip install -r packages.txt
+```
+
 ## [Official Flask Documentation](http://flask.pocoo.org)
