@@ -84,6 +84,13 @@ class testCases(unittest.TestCase):
         else:
             assert False
 
+    def testGetNotificationForStudentSection(self):
+        notifications = getNotificationssForStudentSection(3)
+        for key in notifications:
+            if key not in notifications:
+                assert False
+        assert True
+
     def testCheckIfStudent(self):
         student = checkIfStudent(1)
         if student:
