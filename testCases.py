@@ -85,7 +85,8 @@ class testCases(unittest.TestCase):
             assert False
 
     def testGetNotificationForStudentSection(self):
-        notifications = getNotificationssForStudentSection(5)
+        notifications = getNotificationssForStudentSection(1)
+        print(notifications)
         if len(notifications) == 1:
             assert True
             n = notifications[0]
