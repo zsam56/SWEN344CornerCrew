@@ -27,7 +27,7 @@
                     {% endif %}
                         <td>
                             {% if not student %}
-                            <a href="/course/{{s['COURSE_ID']}}/{{s['ID']}}">
+                            <a href="/course/{{user['ID']}}/{{s['COURSE_ID']}}/{{s['ID']}}">
                             {% endif %}
                             {{ s['COURSE_NAME'] }} -  Section {{ s['ID']}}
                             {% if not student %}

@@ -37,11 +37,12 @@ def courseList(user_id):
         #prof
         sections = getProfessorSections(user_id)
 
-        return render_template('courseListPage.jinja', section_list=getProfessorSections(user_id), student=False)
+        return render_template('courseListPage.jinja', user=user, section_list=getProfessorSections(user_id), student=False)
 
 
-@app.route("/course/<course_id>/<section_id>")
-def courseView(course_id, section_id):
+@app.route("/course/<user_id>/<course_id>/<section_id>")
+def courseView(user_id, course_id, section_id):
+    user = getUser(user_id)
     lock_form = Forms.LockGradeForm()
     save_form = Forms.SaveGradeForm()
     comment_form = Forms.CommentForm()
@@ -49,29 +50,30 @@ def courseView(course_id, section_id):
     grades_comments = getGradesAndCommentsForSection(section_id)
     hashtag = getClassHashtag(section)
     #get the role of the user and load that with the template
-    return render_template('coursePage.jinja', professor=True, course_id=course_id, section=section, grades_comments=grades_comments, 
+    return render_template('coursePage.jinja', user=user, professor=True, course_id=course_id, section=section, grades_comments=grades_comments, 
         form=lock_form, save_form=save_form, comment_form=comment_form, hashtag=hashtag)
 
 @app.route("/save_grade", methods=['GET', 'POST'])
 def saveGrades():
     save_form = Forms.SaveGradeForm(request.form)
     new_grade = save_form.new_grade.data
-    user_id = save_form.student_id.data
+    user_id = save_form.user_id.data
+    student_id = save_form.student_id.data
     course_id = save_form.course_id.data
     section_id = save_form.section_id.data
-    saveStudentGrade(user_id, section_id, new_grade)
+    saveStudentGrade(student_id, section_id, new_grade)
     
-    return redirect(url_for('courseView', course_id=course_id, section_id=section_id))
+    return redirect(url_for('courseView', user_id=user_id, course_id=course_id, section_id=section_id))
 
 @app.route("/lock_grades", methods=['GET', 'POST'])
 def lockGrade():
     lock_form = Forms.LockGradeForm(request.form)
-    user_id = lock_form.student_id.data
+    user_id = lock_form.user_id.data
     course_id = lock_form.course_id.data
     section_id = lock_form.section_id.data
     lockStudentGrade(user_id, section_id)
 
-    return redirect(url_for('courseView', course_id=course_id, section_id=section_id))
+    return redirect(url_for('courseView', user_id=user_id, course_id=course_id, section_id=section_id))
 
 @app.route("/create_comment", methods=["POST"])
 def addComment():
@@ -83,7 +85,7 @@ def addComment():
     if (checkIfStudent(user_id)):
         return redirect(url_for('courseList', user_id=user_id))
     else:
-        return redirect(url_for('courseView', course_id=comment_form.course_id.data, section_id=comment_form.section_id.data))
+        return redirect(url_for('courseView', user_id=user_id, course_id=comment_form.course_id.data, section_id=comment_form.section_id.data))
 
 @app.route("/expireNotification", methods=["POST"])
 def expireNotification():

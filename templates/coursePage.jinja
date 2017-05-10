@@ -38,6 +38,7 @@
                                     {% if not grades_comments[student_id]["grade"]["IS_LOCKED"] %}
                                         <div class="lock_check">
                                             <form action="/lock_grades" method="post">
+                                                {{form.user_id(value=user['ID'])}}
                                                 {{form.student_id(value=student_id)}}
                                                 {{form.section_id(value=section['ID'])}}
                                                 {{form.course_id(value=course_id)}}
@@ -56,6 +57,7 @@
                                     <strong class="grade-text">{{ grades_comments[student_id]["grade"]["VALUE"] }}</strong>
                                     {% if not grades_comments[student_id]["grade"]["IS_LOCKED"] %}
                                         <form action="/save_grade" class="save_form" method="post">
+                                            {{save_form.user_id(value=user['ID'])}}
                                             {{save_form.new_grade}}
                                             {{save_form.student_id(value=student_id)}}
                                             {{save_form.section_id(value=section['ID'])}}
@@ -79,7 +81,7 @@
                                     </p>
                                     {% endfor %}
                                     <form action="/create_comment" method="post">
-                                        {{comment_form.user_id(value=10)}}
+                                        {{comment_form.user_id(value=user['ID'])}}
                                         {{comment_form.grade_id(value=grades_comments[student_id]['grade']['ID'])}}
                                         {{comment_form.course_id(value=course_id)}}
                                         {{comment_form.section_id(value=section['ID'])}}
