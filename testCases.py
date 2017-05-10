@@ -58,7 +58,7 @@ class testCases(unittest.TestCase):
 
     def testGetStudentSections(self):
         sections = getStudentSections(1)
-        if len(sections) == 1:
+        if len(sections) > 0:
             assert True
         else:
             assert False

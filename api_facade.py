@@ -274,7 +274,6 @@ def getGradesAndCommentsForSection(section_id):
                     "grade": getGradeForStudentSection(ss["id"]),
                     "comments" : getCommentsForStudentSection(ss["id"])
                 }
-        print(grades_comments)
         return grades_comments
     else:
         grades_comments = {}
@@ -418,7 +417,6 @@ def getClassHashtag(section):
     course_code = course['COURSE_CODE'] #SWEN-344
     course_code = course_code.replace('-', "")
     hashtag = "RIT" + course_code + "_" + str(class_id)
-    print(hashtag)
     return hashtag
 
 
