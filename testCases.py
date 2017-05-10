@@ -79,7 +79,6 @@ class testCases(unittest.TestCase):
 
     def testGetGradesAndCommentsForSection(self):
         gradesAndComments = getGradesAndCommentsForSection(1)
-        print(gradesAndComments)
         if 'grade' in gradesAndComments[1] and 'comments' in gradesAndComments[1]:
             assert True
         else:
