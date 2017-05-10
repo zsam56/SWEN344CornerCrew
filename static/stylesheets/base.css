@@ -1,12 +1,20 @@
-body {margin:0;}
+body {
+    margin:0;
+    background-color: #f9f8f7 !important;
+}
 
 .topBanner {
-    border: 2px solid black;
-    height: 25px;
+    vertical-align: middle;
+    font-size: 25px;
+    color: white;
+    background-color: #bc5c1c;
+    height: 50px;
 }
 
 .bannerTitle{
+    padding-top: 7px;
     padding-left: 20px;
+    display: inline-block;
 }
 
 .topnav {
@@ -65,3 +73,5 @@ body {margin:0;}
     width: 200px;
     height: 150px;
 }
+
+
