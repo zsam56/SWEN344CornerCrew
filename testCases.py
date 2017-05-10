@@ -85,11 +85,14 @@ class testCases(unittest.TestCase):
             assert False
 
     def testGetNotificationForStudentSection(self):
-        notifications = getNotificationssForStudentSection(3)
-        for key in notifications:
-            if key not in notifications:
-                assert False
-        assert True
+        notifications = getNotificationssForStudentSection(5)
+        if len(notifications) == 1:
+            assert True
+            n = notifications[0]
+            if 'student_section_id' in n and 'is_expired' in n and 'id' in n and 'created_time' in n and 'message' in n:
+                assert True
+        else:
+            assert False
 
     def testCheckIfStudent(self):
         student = checkIfStudent(1)
