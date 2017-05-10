@@ -8,6 +8,9 @@
             <table class="table">
             <thead>
               <tr>
+                {% if student %}
+                <th>Comments</th>
+                {% endif %}
                 <th>Course</th>
                 <th>Grade</th>
               </tr>
@@ -16,6 +19,9 @@
                 {% for s in section_list %}
                     {% if student %}
                     <tr class="collapsible-header">
+                        <td>
+                            <button class="comments-btn">Comments</button>
+                        </td>
                     {% else %}
                     <tr>
                     {% endif %}
@@ -23,12 +29,10 @@
                             {% if not student %}
                             <a href="/course/{{s['COURSE_ID']}}/{{s['ID']}}">
                             {% endif %}
-                            {{ s['COURSE_NAME'] }}
+                            {{ s['COURSE_NAME'] }} -  Section {{ s['ID']}}
                             {% if not student %}
                             </a>
                             {% endif %}
-                            </br>
-                            Section ID: {{ s['ID'] }}
                         </td>
                         <td>
                             {% if student %}

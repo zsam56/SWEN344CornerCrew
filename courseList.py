@@ -35,7 +35,6 @@ def courseList(user_id):
     else:
         #prof
         sections = getProfessorSections(user_id)
-        print(sections)
 
         return render_template('courseListPage.jinja', section_list=getProfessorSections(user_id), student=False)
 
