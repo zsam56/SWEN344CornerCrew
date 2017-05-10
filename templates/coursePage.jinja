@@ -28,8 +28,8 @@
                     {% if grades_comments is iterable %}
                         {% for student_id in grades_comments %}
                             <tr class="collapsible-header">
-                                <td class="right_caret" id="comments">
-                
+                                <td>
+                                    <button class="comments-btn">Comments</button>
                                 </td>
                                 <td>
                                     {% if grades_comments[student_id]["grade"]["IS_LOCKED"] %}
