@@ -38,7 +38,7 @@ class testCases(unittest.TestCase):
 
     def testGetNumGrades(self):
         numGrades = getNumGrades(1)
-        if numGrades == 2:
+        if numGrades == 3:
             assert True
         else:
             assert False
