@@ -21,6 +21,20 @@
 	background-size: 50% 50%;
 	background-repeat: no-repeat;
 }
+
+.grade-text{
+	display: inline-block;
+}
+
+#new_grade{
+	margin-right: 10px;
+    margin-top: 2px;
+}
+
+.save_form{
+	display: inline-block;
+    float: right;
+}
 .comments-button:hover{
 	cursor:pointer;
 }
@@ -40,6 +54,11 @@
 
 .hidden_input{
 	display: none;
+}
+
+iframe{
+	border: solid 1px black !important;
+	border-radius: 10px;
 }
 
 .twitter-container{
