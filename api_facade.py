@@ -274,7 +274,6 @@ def getGradesAndCommentsForSection(section_id):
                     "grade": getGradeForStudentSection(ss["id"]),
                     "comments" : getCommentsForStudentSection(ss["id"])
                 }
-        print(grades_comments)
         return grades_comments
     else:
         grades_comments = {}
