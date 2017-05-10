@@ -78,8 +78,14 @@
                                         {{ c["CONTENT"] }}
                                     </p>
                                     {% endfor %}
-                                    <input type="text" style="width: 80%" placeholder="Write a comment">
-                                    <button style="float: right">Submit</button>
+                                    <form action="/create_comment" method="post">
+                                        {{comment_form.user_id(value=10)}}
+                                        {{comment_form.grade_id(value=grades_comments[student_id]['grade']['ID'])}}
+                                        {{comment_form.course_id(value=course_id)}}
+                                        {{comment_form.section_id(value=section['ID'])}}
+                                        {{comment_form.message(placeholder='Write a comment')}}
+                                        <button style="float: right">Submit</button>
+                                    </form>
                                 </td>
                             </tr>
                         {% endfor %}

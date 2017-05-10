@@ -52,11 +52,15 @@
                             <p>
                                 {{ c["FIRSTNAME"] }} {{ c["LASTNAME"] }} ({{ c["ROLE"] }}) - Posted {{ c["CREATED_TIME"] }}
                                 <br>
-                                {{ c["comment"] }}
+                                {{ c["CONTENT"] }}
                             </p>
                             {% endfor %}
-                            <input type="text" style="width: 80%" placeholder="Write a comment">
-                            <button style="float: right">Submit</button>
+                            <form action="/create_comment" method="post">
+                                {{form.user_id(value=user['ID'])}}
+                                {{form.grade_id(value=s['grade']['ID'])}}
+                                {{form.message(placeholder='Write a comment')}}
+                                <button style="float: right">Submit</button>
+                            </form>
                         </td>
                     </tr>
                     {% endif %}

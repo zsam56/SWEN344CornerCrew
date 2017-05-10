@@ -22,6 +22,7 @@ def courseList(user_id):
     user = getUser(user_id)
     if (checkIfStudent(user_id)):
         #student
+        form = Forms.CommentForm()
         notifications = []
         section_list = getStudentSections(user_id)
         for s in section_list:
@@ -31,7 +32,7 @@ def courseList(user_id):
             s['comments'] = getCommentsForStudentSection(s['ID'])
             notifications.append(getNotificationssForStudentSection(s['SECTION_ID']))
             notifications = notifications[0]
-        return render_template('courseListPage.jinja', section_list=section_list, student=student, notifications=notifications)
+        return render_template('courseListPage.jinja', user=user, section_list=section_list, student=student, notifications=notifications, form=form)
     else:
         #prof
         sections = getProfessorSections(user_id)
@@ -43,12 +44,13 @@ def courseList(user_id):
 def courseView(course_id, section_id):
     lock_form = Forms.LockGradeForm()
     save_form = Forms.SaveGradeForm()
+    comment_form = Forms.CommentForm()
     section = getSection(section_id)
     grades_comments = getGradesAndCommentsForSection(section_id)
     hashtag = getClassHashtag(section)
     #get the role of the user and load that with the template
     return render_template('coursePage.jinja', professor=True, course_id=course_id, section=section, grades_comments=grades_comments, 
-        form=lock_form, save_form=save_form, hashtag=hashtag)
+        form=lock_form, save_form=save_form, comment_form=comment_form, hashtag=hashtag)
 
 @app.route("/save_grade", methods=['GET', 'POST'])
 def saveGrades():
@@ -70,6 +72,18 @@ def lockGrade():
     lockStudentGrade(user_id, section_id)
 
     return redirect(url_for('courseView', course_id=course_id, section_id=section_id))
+
+@app.route("/create_comment", methods=["POST"])
+def addComment():
+    comment_form = Forms.CommentForm(request.form)
+    user_id = comment_form.user_id.data
+    print("saveGradeComment( user_id=", user_id, ", grade_id=", comment_form.grade_id.data, ", content=", comment_form.message.data, ")")
+    a = saveGradeComment(user_id, comment_form.grade_id.data, comment_form.message.data)
+    print(a)
+    if (checkIfStudent(user_id)):
+        return redirect(url_for('courseList', user_id=user_id))
+    else:
+        return redirect(url_for('courseView', course_id=comment_form.course_id.data, section_id=comment_form.section_id.data))
 
 @app.route("/expireNotification", methods=["POST"])
 def expireNotification():

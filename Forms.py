@@ -14,3 +14,10 @@ class SaveGradeForm(Form):
 class LoginForm(Form):
 	username = StringField('username')
 	password = StringField('password')
+
+class CommentForm(Form):
+	user_id = HiddenField('user_id')
+	grade_id = HiddenField('grade_id')
+	course_id = HiddenField('course_id')
+	section_id = HiddenField('section_id')
+	message = StringField('message')
