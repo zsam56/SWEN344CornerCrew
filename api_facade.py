@@ -415,29 +415,5 @@ def getClassHashtag(section):
     return hashtag
 
 
-
-"""
-Simple unit tests
-"""
-def unit_test():
-    print("getSectionList()")
-    print(getSectionList())
-    print("\n")
-    print("getSection('swen-344-01')")
-    print(getSection("swen-344-01"))
-    print("\n")
-    print("getProfessorSections(1)")
-    print(getProfessorSections(1))
-    print("\n")
-    print("getStudentSections(4)")
-    print(getStudentSections(4))
-    print("\n")
-    print("getGradesAndCommentsForSection('swen-344-01')")
-    print(getGradesAndCommentsForSection("swen-344-01"))
-    print("\n")
-    print("check if student")
-    print(checkIfStudent(1))
-    print(checkIfStudent(7))
-
 if __name__ == "__main__":
     unit_test()
