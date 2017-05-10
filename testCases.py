@@ -38,7 +38,7 @@ class testCases(unittest.TestCase):
 
     def testGetNumGrades(self):
         numGrades = getNumGrades(1)
-        if numGrades == 2:
+        if numGrades == 3:
             assert True
         else:
             assert False
@@ -91,6 +91,13 @@ class testCases(unittest.TestCase):
             assert True
         else:
             assert False
+
+    def testGetNotificationForStudentSection(self):
+        notifications = getNotificationssForStudentSection(3)
+        for key in notifications:
+            if key not in notifications:
+                assert False
+        assert True
 
     def testCheckIfStudent(self):
         student = checkIfStudent(1)
