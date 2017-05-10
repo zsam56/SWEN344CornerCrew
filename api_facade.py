@@ -274,7 +274,6 @@ def getGradesAndCommentsForSection(section_id):
                     "grade": getGradeForStudentSection(ss["id"]),
                     "comments" : getCommentsForStudentSection(ss["id"])
                 }
-        print(grades_comments)
         return grades_comments
     else:
         grades_comments = {}
@@ -371,11 +370,7 @@ def saveGradeComment(user_id, grade_id, comment_text):
     if mockAPI:
         print("NOT IMPLEMENETED IN MOCK")
     else:
-        data = {
-            'user_id': user_id,
-            'grade_id': grade_id,
-            'comment': comment_text
-        }
+        data = { 'user_id': user_id, 'grade_id': grade_id, 'content': comment_text }
         responseJSON = postToAPI('grading', 'postGradeComment', data)
         return responseJSON
 
@@ -418,9 +413,8 @@ def getClassHashtag(section):
     course_code = course['COURSE_CODE'] #SWEN-344
     course_code = course_code.replace('-', "")
     hashtag = "RIT" + course_code + "_" + str(class_id)
-    print(hashtag)
     return hashtag
 
 
 if __name__ == "__main__":
-    unit_test()
+    pass

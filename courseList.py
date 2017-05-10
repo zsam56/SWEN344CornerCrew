@@ -80,8 +80,7 @@ def addComment():
     comment_form = Forms.CommentForm(request.form)
     user_id = comment_form.user_id.data
     print("saveGradeComment( user_id=", user_id, ", grade_id=", comment_form.grade_id.data, ", content=", comment_form.message.data, ")")
-    a = saveGradeComment(user_id, comment_form.grade_id.data, comment_form.message.data)
-    print(a)
+    saveGradeComment(user_id, comment_form.grade_id.data, comment_form.message.data)
     if (checkIfStudent(user_id)):
         return redirect(url_for('courseList', user_id=user_id))
     else:
